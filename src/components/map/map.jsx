@@ -6,6 +6,15 @@ import table_data from "./table_data";
 import LicencePlate from "../licencePlate/licencePlate";
 import onTheWayTable from "../../models/onTheWayTable";
 import "./map.scss";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
 
 const containerStyle = {
   width: "100%",
@@ -111,25 +120,29 @@ export default function Map() {
         </div>
       </div>
       <div className="table">
-        <div className="table-header">
-          {onTheWayTable.map((header) => (
-            <div key={header} className="column header">
-              {header}
-            </div>
-          ))}
-        </div>
-        <div className="table-body">
-          {table_data.map((row, index) => (
-            <div key={index} className="table-row">
-              <div className="column">{row.make}</div>
-              <div className="column">
-                <LicencePlate licenceNumber={row.licencePlate} />
-              </div>
-              <div className="column">{row.route}</div>
-              <div className="column">{row.odometer}</div>
-            </div>
-          ))}
-        </div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              {onTheWayTable.map((header) => (
+                <TableHead key={header}>{header}</TableHead>
+              ))}
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {table_data.map((row, index) => (
+              <>
+                <TableRow>
+                  <TableCell key={index}>{row.make}</TableCell>
+                  <TableCell>
+                    <LicencePlate licenceNumber={row.licencePlate} />
+                  </TableCell>
+                  <TableCell>{row.route}</TableCell>
+                  <TableCell>{row.odometer}</TableCell>
+                </TableRow>
+              </>
+            ))}
+          </TableBody>
+        </Table>
       </div>
     </section>
   );
