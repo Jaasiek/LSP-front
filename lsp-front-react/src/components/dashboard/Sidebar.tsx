@@ -1,12 +1,20 @@
-"use client"
-import { Card, CardContent } from "@/components/ui/card"
-import { Truck, MapPin, Wrench, FileText, Settings } from "lucide-react"
-import { StatusItem } from "./shared"
-import { Link, useLocation } from "react-router-dom"
+"use client";
+import { Card, CardContent } from "@/components/ui/card";
+import { Truck, MapPin, Wrench, FileText, Settings } from "lucide-react";
+import { StatusItem } from "./shared";
+import { Link, useLocation } from "react-router-dom";
 
-export function Sidebar({ systemStatus, securityLevel, networkStatus }: { systemStatus: number; securityLevel: number; networkStatus: number }) {
+export function Sidebar({
+  systemStatus,
+  securityLevel,
+  networkStatus,
+}: {
+  systemStatus: number;
+  securityLevel: number;
+  networkStatus: number;
+}) {
   const location = useLocation();
-  
+
   const navItems = [
     { icon: Truck, label: "Dashboard", path: "/" },
     { icon: MapPin, label: "Mapa", path: "/map" },
@@ -39,16 +47,20 @@ export function Sidebar({ systemStatus, securityLevel, networkStatus }: { system
           })}
         </nav>
         <div className="mt-8 pt-6 border-t border-slate-700/50">
-          <div className="text-xs text-slate-500 mb-2 font-mono">SYSTEM STATUS</div>
+          <div className="text-xs text-slate-500 mb-2 font-mono">
+            SYSTEM STATUS
+          </div>
           <div className="space-y-3">
-            <StatusItem label="Core Systems" value={systemStatus} color="cyan" />
+            <StatusItem
+              label="Core Systems"
+              value={systemStatus}
+              color="cyan"
+            />
             <StatusItem label="Security" value={securityLevel} color="green" />
             <StatusItem label="Network" value={networkStatus} color="blue" />
           </div>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
-
-

@@ -12,14 +12,14 @@ const table_data = [
     make: "Volvo",
     licencePlate: "KRK 8721M",
     route: 3,
-    odometer: 512987,
+    odometer: 1,
   },
   {
     id: 4,
     make: "Scania",
     licencePlate: "POZ 1198F",
     route: 7,
-    odometer: 278453,
+    odometer: 1,
   },
   {
     id: 5,
