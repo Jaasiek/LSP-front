@@ -11,7 +11,6 @@ const center = {
   lng: 21.0122,
 };
 
-// Lista punktów (lat, lng, title)
 const locations = [
   { id: "LOC-0001", lat: 53.007467, lng: 21.843845 },
   { id: "LOC-0002", lat: 51.399369, lng: 20.874733 },
