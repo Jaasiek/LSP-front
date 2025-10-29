@@ -98,7 +98,7 @@ export default function Map() {
           </GoogleMap>
         </div>
 
-        <div className="map-details-reserved" aria-label="reserved-details-area" />
+    
       </div>
     </section>
   );
