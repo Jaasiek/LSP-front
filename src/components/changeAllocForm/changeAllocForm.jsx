@@ -9,6 +9,7 @@ export default function ChangeAllocForm({
   licencePlate,
 }) {
   const [newAlloc, setNewAlloc] = useState("");
+  const [isDisabled, setDisabled] = useState(false);
 
   function submitNewAlloc(id, newAlloc) {
     console.log(
@@ -16,7 +17,7 @@ export default function ChangeAllocForm({
     );
   }
   return (
-    <div className="allocForm">
+    <div className={isDisabled ? "disabled allocForm" : "allocForm"}>
       <h1>Zmień przypisanie pojazdu</h1>
       <h4>(Wiąże się to ze zmianami przypisań dla innych pojazdów)</h4>
       <div className="vehicleInfo">
@@ -43,7 +44,12 @@ export default function ChangeAllocForm({
         <h3>Zmień przypisanie: </h3>
         <input type="text" onChange={(e) => setNewAlloc(e.target.value)} />
       </div>
-      <button onClick={() => submitNewAlloc(id, newAlloc)}>
+      <button
+        onClick={() => {
+          submitNewAlloc(id, newAlloc);
+          setDisabled(true);
+        }}
+      >
         Zmień przypisanie
       </button>
     </div>
