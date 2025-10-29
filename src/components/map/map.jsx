@@ -109,25 +109,10 @@ export default function Map() {
           </GoogleMap>
         </div>
 
-        <div className="table">
-          <div className="table-header">
-            {onTheWayTable.map((header) => (
-              <div key={header} className="column header">
-                {header}
-              </div>
-            ))}
-          </div>
-          <div className="table-body">
-            {table_data.map((row, index) => (
-              <div key={index} className="table-row">
-                <div className="column">{row.make}</div>
-                <div className="column">{row.licencePlate}</div>
-                <div className="column">{row.route}</div>
-                <div className="column">{row.odometer}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <div
+          className="map-details-reserved"
+          aria-label="reserved-details-area"
+        />
       </div>
     </section>
   );
