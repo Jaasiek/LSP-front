@@ -1,11 +1,11 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { Truck, MapPin, Wrench, FileText } from "lucide-react"
-import { Link, useLocation } from "react-router-dom"
+import { Card, CardContent } from "@/components/ui/card";
+import { Truck, MapPin, Wrench, FileText } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 // Bezpieczny Sidebar z domyślnymi wartościami - uproszczona wersja bez statusów
 export function Sidebar() {
   const location = useLocation();
-  
+
   const navItems = [
     { icon: Truck, label: "Dashboard", path: "/" },
     { icon: MapPin, label: "Mapa", path: "/map" },
@@ -39,6 +39,5 @@ export function Sidebar() {
         </nav>
       </CardContent>
     </Card>
-  )
+  );
 }
-

@@ -1,0 +1,25 @@
+@use "../../colors.scss";
+
+.header {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-around;
+  background-color: var(--background-color);
+
+  a {
+    transition: 0.2s;
+    text-decoration: none;
+    color: var(--text-primary-color);
+
+    &:hover {
+      font-weight: 700;
+      transition: 0.2s;
+    }
+
+    &.active p {
+      font-weight: 800;
+      font-size: 110%;
+    }
+  }
+}
