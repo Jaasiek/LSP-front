@@ -9,6 +9,7 @@ import Raports from "./components/raports/raports";
 import UpcomingChanges from "./components/upcoming/upcomingChanges";
 import UpcomingService from "./components/upcomingService/upcomingService";
 import ChangesHistory from "./components/changesHistory/changesHistory";
+import LicencePlate from "./components/licencePlate/licencePlate";
 
 function App() {
   return (

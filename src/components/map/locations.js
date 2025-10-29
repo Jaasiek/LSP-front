@@ -301,4 +301,8 @@ const locations = [
   { id: "LOC-0300", lat: 50.978967, lng: 19.046703 },
 ];
 
+const table_data = [
+  { make: "DAF", licencePlate: "WWL 2137X", route: 8, odometer: 451253 },
+];
+
 export default locations;
