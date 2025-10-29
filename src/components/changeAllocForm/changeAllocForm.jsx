@@ -1,16 +1,15 @@
 import "./changeAllocForm.scss";
 import LicencePlate from "../licencePlate/licencePlate";
 import { useState } from "react";
-import Alert from "../alert/alert";
 
 export default function ChangeAllocForm({
   id,
   currentAlloc,
   brand,
   licencePlate,
+  onSuccess,
 }) {
   const [newAlloc, setNewAlloc] = useState("");
-  const [isDisabled, setDisabled] = useState(false);
 
   function submitNewAlloc(id, newAlloc) {
     console.log(
@@ -18,8 +17,7 @@ export default function ChangeAllocForm({
     );
   }
   return (
-    <>
-      <div className={isDisabled ? "disabled allocForm" : "allocForm"}>
+    <div className={"allocForm"}>
         <h1>Zmień przypisanie pojazdu</h1>
         <h4>(Wiąże się to ze zmianami przypisań dla innych pojazdów)</h4>
         <div className="vehicleInfo">
@@ -49,18 +47,16 @@ export default function ChangeAllocForm({
         <button
           onClick={() => {
             submitNewAlloc(id, newAlloc);
-            setDisabled(true);
+            if (onSuccess) {
+              onSuccess({
+                title: "Zmiana trasy dla pojazdu",
+                message: `Pojazd został przypisany do trasy ${newAlloc}`,
+              });
+            }
           }}
         >
           Zmień przypisanie
         </button>
       </div>
-      {isDisabled && (
-        <Alert
-          title="Zmianan trasy dla pojazdu"
-          message={`Pojazd został przypisany do trasy  ${newAlloc}`}
-        />
-      )}
-    </>
   );
 }
