@@ -3,6 +3,7 @@ import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import Select from "react-select";
 import locations from "./locations";
 import table_data from "./table_data";
+import LicencePlate from "../licencePlate/licencePlate";
 import onTheWayTable from "../../models/onTheWayTable";
 import "./map.scss";
 
@@ -108,11 +109,27 @@ export default function Map() {
             })}
           </GoogleMap>
         </div>
-
-        <div
-          className="map-details-reserved"
-          aria-label="reserved-details-area"
-        />
+      </div>
+      <div className="table">
+        <div className="table-header">
+          {onTheWayTable.map((header) => (
+            <div key={header} className="column header">
+              {header}
+            </div>
+          ))}
+        </div>
+        <div className="table-body">
+          {table_data.map((row, index) => (
+            <div key={index} className="table-row">
+              <div className="column">{row.make}</div>
+              <div className="column">
+                <LicencePlate licenceNumber={row.licencePlate} />
+              </div>
+              <div className="column">{row.route}</div>
+              <div className="column">{row.odometer}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
