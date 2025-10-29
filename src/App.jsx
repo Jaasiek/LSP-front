@@ -21,7 +21,7 @@ function App() {
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/raports" element={<Raports />} />
           <Route path="/upcomingChanges" element={<UpcomingChanges />} />
-          <Route path="/upcomingService" element={<UpcomingService />} />
+          <Route path="/upcomingServices" element={<UpcomingService />} />
           <Route path="/history" element={<ChangesHistory />} />
         </Routes>
         <ChangeAllocForm
