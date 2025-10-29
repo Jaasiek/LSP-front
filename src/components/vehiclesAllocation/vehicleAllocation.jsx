@@ -2,6 +2,7 @@ import vehicleAllocation from "../../models/vehicleAllocation";
 import ChangeAllocForm from "../changeAllocForm/changeAllocForm";
 import LicencePlate from "../licencePlate/licencePlate";
 import table_data from "../map/table_data";
+import Alert from "../alert/alert";
 import "./vehicleAllocation.scss";
 import { useState } from "react";
 
@@ -11,6 +12,8 @@ export default function VehicleAllocation() {
   const [currentAlloc, setCurrentAlloc] = useState(null);
   const [brand, setBrand] = useState(null);
   const [licencePlate, setLicencePlate] = useState(null);
+  const [alertData, setAlertData] = useState(null);
+  const [alertKey, setAlertKey] = useState(0);
 
   return (
     <div className="vehicleAllocation">
@@ -48,13 +51,27 @@ export default function VehicleAllocation() {
         </div>
       </div>
       {toEdit && (
-        <ChangeAllocForm
-          key={id}
-          id={id}
-          currentAlloc={currentAlloc}
-          brand={brand}
-          licencePlate={licencePlate}
-        />
+        <div className="va-modal-root" role="dialog" aria-modal="true">
+          <div className="va-modal-backdrop" onClick={() => setToEdit(false)} />
+          <div className="va-modal">
+            <button className="va-modal-close" aria-label="Zamknij" onClick={() => setToEdit(false)}>×</button>
+            <ChangeAllocForm
+              key={id}
+              id={id}
+              currentAlloc={currentAlloc}
+              brand={brand}
+              licencePlate={licencePlate}
+              onSuccess={({ title, message }) => {
+                setToEdit(false);
+                setAlertData({ title, message });
+                setAlertKey((k) => k + 1);
+              }}
+            />
+          </div>
+        </div>
+      )}
+      {alertData && (
+        <Alert key={alertKey} title={alertData.title} message={alertData.message} />
       )}
     </div>
   );
