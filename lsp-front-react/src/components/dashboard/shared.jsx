@@ -145,12 +145,12 @@ export function PerformanceChart() {
         <div className="text-xs text-slate-500">0%</div>
       </div>
       <div className="absolute left-0 right-0 top-0 h-full flex flex-col justify-between py-4 px-10">
-        <div className="border-b border-slate-700/30 w-full"></div>
-        <div className="border-b border-slate-700/30 w-full"></div>
-        <div className="border-b border-slate-700/30 w-full"></div>
-        <div className="border-b border-slate-700/30 w-full"></div>
-        <div className="border-b border-slate-700/30 w-full"></div>
-      </div>
+                    <div className="border-b border-slate-700/30 w-full"></div>
+                    <div className="border-b border-slate-700/30 w-full"></div>
+                    <div className="border-b border-slate-700/30 w-full"></div>
+                    <div className="border-b border-slate-700/30 w-full"></div>
+                    <div className="border-b border-slate-700/30 w-full"></div>
+                  </div>
       <div className="flex-1 h-full flex items-end justify-between px-2 z-10">
         {Array.from({ length: 24 }).map((_, i) => {
           // Zahardcodowane wartości zamiast losowych - tworzą wzór fali
