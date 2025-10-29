@@ -2,6 +2,8 @@ import { useRef, useState, useMemo } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import Select from "react-select";
 import locations from "./locations";
+import table_data from "./table_data";
+import onTheWayTable from "../../models/onTheWayTable";
 import "./map.scss";
 
 const containerStyle = {
@@ -18,7 +20,11 @@ export default function Map() {
   const mapRef = useRef(null);
   const [selectedId, setSelectedId] = useState("");
   const options = useMemo(
-    () => locations.map((loc) => ({ value: String(loc.id), label: String(loc.id) })),
+    () =>
+      locations.map((loc) => ({
+        value: String(loc.id),
+        label: String(loc.id),
+      })),
     []
   );
 
@@ -78,7 +84,8 @@ export default function Map() {
             zoom={6}
           >
             {locations.map((loc) => {
-              const isSelected = selectedId && String(loc.id) === String(selectedId);
+              const isSelected =
+                selectedId && String(loc.id) === String(selectedId);
               return (
                 <Marker
                   key={loc.id}
@@ -86,7 +93,11 @@ export default function Map() {
                   title={String(loc.id)}
                   opacity={isSelected ? 1 : selectedId ? 0.6 : 1}
                   zIndex={isSelected ? 1000 : 1}
-                  animation={isSelected && window.google ? window.google.maps.Animation.BOUNCE : undefined}
+                  animation={
+                    isSelected && window.google
+                      ? window.google.maps.Animation.BOUNCE
+                      : undefined
+                  }
                   onClick={() => {
                     const id = String(loc.id);
                     setSelectedId(id);
@@ -98,7 +109,25 @@ export default function Map() {
           </GoogleMap>
         </div>
 
-        <div className="map-details-reserved" aria-label="reserved-details-area" />
+        <div className="table">
+          <div className="table-header">
+            {onTheWayTable.map((header) => (
+              <div key={header} className="column header">
+                {header}
+              </div>
+            ))}
+          </div>
+          <div className="table-body">
+            {table_data.map((row, index) => (
+              <div key={index} className="table-row">
+                <div className="column">{row.make}</div>
+                <div className="column">{row.licencePlate}</div>
+                <div className="column">{row.route}</div>
+                <div className="column">{row.odometer}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
