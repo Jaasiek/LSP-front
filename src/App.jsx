@@ -1,5 +1,6 @@
 import "./App.scss";
 import Map from "./components/map/map";
+
 import Header from "./components/header/header";
 import VehicleAllocation from "./components/vehiclesAllocation/vehicleAllocation";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
