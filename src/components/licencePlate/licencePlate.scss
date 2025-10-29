@@ -6,13 +6,15 @@
   height: 25px;
   border: 1px solid black;
   border-radius: 0.25rem;
+  background-color: white;
+  color: black;
 
   .marker {
     background: #0000ff;
     width: 10%;
     height: 100%;
-    border-top-left-radius: 0.25rem;
-    border-bottom-left-radius: 0.25rem;
+    border-top-left-radius: 0.2rem;
+    border-bottom-left-radius: 0.2rem;
   }
 
   .registration {
