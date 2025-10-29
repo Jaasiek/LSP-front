@@ -1,30 +1,30 @@
 import "./header.scss";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
     <div className="header">
-      <Link to="/">
+      <NavLink to="/" end>
         <p>Przydział pojazdów</p>
-      </Link>
-      <Link to="/map">
+      </NavLink>
+      <NavLink to="/map">
         <p>Mapa</p>
-      </Link>
-      <Link to="/upcomingService">
+      </NavLink>
+      <NavLink to="/upcomingServices">
         <p>Nadchodzące serwisy</p>
-      </Link>
-      <Link to="/upcomingChanges">
+      </NavLink>
+      <NavLink to="/upcomingChanges">
         <p>Zbliżające się zmiany</p>
-      </Link>
-      <Link to="/raports">
+      </NavLink>
+      <NavLink to="/raports">
         <p>Raporty</p>
-      </Link>
-      <Link to="/history">
+      </NavLink>
+      <NavLink to="/history">
         <p>Historia</p>
-      </Link>
-      <Link to="/notifications">
+      </NavLink>
+      <NavLink to="/notifications">
         <p>Powiadomienia</p>
-      </Link>
+      </NavLink>
     </div>
   );
 }

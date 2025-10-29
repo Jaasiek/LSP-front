@@ -8,7 +8,7 @@ import Raports from "./components/raports/raports";
 import UpcomingChanges from "./components/upcoming/upcomingChanges";
 import UpcomingService from "./components/upcomingService/upcomingService";
 import ChangesHistory from "./components/changesHistory/changesHistory";
-import LicencePlate from "./components/licencePlate/licencePlate";
+import ChangeAllocForm from "./components/changeAllocForm/changeAllocForm";
 
 function App() {
   return (
@@ -24,6 +24,12 @@ function App() {
           <Route path="/upcomingService" element={<UpcomingService />} />
           <Route path="/history" element={<ChangesHistory />} />
         </Routes>
+        <ChangeAllocForm
+          id={1}
+          currentAlloc={8}
+          brand={"MAN"}
+          licencePlate={"WWL 1232K"}
+        />
       </div>
     </Router>
   );
