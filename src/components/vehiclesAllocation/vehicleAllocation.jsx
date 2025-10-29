@@ -28,67 +28,35 @@ export default function VehicleAllocation() {
     <div className="vehicleAllocation">
       <h2>Przydział pojazdów</h2>
       <div className="table">
-        {/* <div className="table-header">
-          {vehicleAllocationTable.map((header) => (
-            <div key={header} className="column header">
-              {header}
-            </div>
-          ))}
-        </div>
-        <div className="table-body">
-          {table_data.map((row, index) => (
-            <div key={index} className="table-row">
-              <div className="column">{row.make}</div>
-              <div className="column">
-                <LicencePlate licenceNumber={row.licencePlate} />
-              </div>
-              <div className="column">{row.route}</div>
-              <div
-                className="column edit"
-                onClick={() => {
-                  setToEdit(true);
-                  setID(row.id);
-                  setCurrentAlloc(row.route);
-                  setBrand(row.make);
-                  setLicencePlate(row.licencePlate);
-                }}
-              >
-                Edytuj
-              </div>
-            </div>
-          ))}
-        </div> */}
         <Table>
           <TableHeader>
             <TableRow>
-              {vehicleAllocationTable.map((header) => (
-                <TableHead key={header}>{header}</TableHead>
+              {vehicleAllocationTable.map((header, idx) => (
+                <TableHead key={idx}>{header}</TableHead>
               ))}
             </TableRow>
           </TableHeader>
           <TableBody>
             {table_data.map((row, index) => (
-              <>
-                <TableRow>
-                  <TableCell key={index}>{row.make}</TableCell>
-                  <TableCell>
-                    <LicencePlate licenceNumber={row.licencePlate} />
-                  </TableCell>
-                  <TableCell>{row.route}</TableCell>
-                  <TableCell
-                    className="edit"
-                    onClick={() => {
-                      setToEdit(true);
-                      setID(row.id);
-                      setCurrentAlloc(row.route);
-                      setBrand(row.make);
-                      setLicencePlate(row.licencePlate);
-                    }}
-                  >
-                    Edytuj
-                  </TableCell>
-                </TableRow>
-              </>
+              <TableRow key={index}>
+                <TableCell>{row.make}</TableCell>
+                <TableCell>
+                  <LicencePlate licenceNumber={row.licencePlate} />
+                </TableCell>
+                <TableCell>{row.route}</TableCell>
+                <TableCell
+                  className="edit"
+                  onClick={() => {
+                    setToEdit(true);
+                    setID(row.id);
+                    setCurrentAlloc(row.route);
+                    setBrand(row.make);
+                    setLicencePlate(row.licencePlate);
+                  }}
+                >
+                  Edytuj
+                </TableCell>
+              </TableRow>
             ))}
           </TableBody>
         </Table>

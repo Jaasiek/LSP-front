@@ -69,13 +69,12 @@
     background: rgba(236, 32, 40, 0.06);
   }
 
-  .column.edit {
+  .edit {
     font-weight: 600;
     cursor: pointer;
     transition: 0.2s;
   }
-
-  .column.edit:hover {
+  .edit:hover {
     background-color: rgba(236, 32, 40, 0.12);
     transition: 0.2s;
   }

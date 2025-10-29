@@ -1,7 +1,9 @@
 import { useRef, useState, useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
+
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import Select from "react-select";
-import locations from "./locations";
+import { Spinner } from "@/components/ui/spinner";
 import table_data from "./table_data";
 import LicencePlate from "../licencePlate/licencePlate";
 import onTheWayTable from "../../models/onTheWayTable";
@@ -26,9 +28,19 @@ const center = {
   lng: 21.0122,
 };
 
+const fetchUsers = async () => {
+  const res = await fetch("http://192.168.56.1:6123/api/locations");
+  return res.json();
+};
+
 export default function Map() {
   const mapRef = useRef(null);
   const [selectedId, setSelectedId] = useState("");
+  const { data: locations = [], status } = useQuery({
+    queryKey: ["users"],
+    queryFn: fetchUsers,
+  });
+
   const options = useMemo(
     () =>
       locations.map((loc) => ({
@@ -55,9 +67,9 @@ export default function Map() {
     googleMapsApiKey: "AIzaSyBCXH8M2htOaqMfhLSn55G2nXj1x7FrXIQ",
   });
 
-  if (!isLoaded) {
-    return <p>Ładowanie mapy...</p>;
-  }
+  if (!isLoaded) return <p>Ładowanie mapy...</p>;
+  if (status === "loading") return <Spinner />;
+  if (status === "error") return <p>Błąd podczas ładowania lokalizacji.</p>;
 
   return (
     <section className="map-section">
