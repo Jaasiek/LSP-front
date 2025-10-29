@@ -1,4 +1,4 @@
-import vehicleAllocation from "../../models/vehicleAllocation";
+import vehicleAllocationTable from "../../models/vehicleAllocation";
 import ChangeAllocForm from "../changeAllocForm/changeAllocForm";
 import LicencePlate from "../licencePlate/licencePlate";
 import table_data from "../map/table_data";
@@ -17,7 +17,7 @@ export default function VehicleAllocation() {
       <h2>Przydział pojazdów</h2>
       <div className="table">
         <div className="table-header">
-          {vehicleAllocation.map((header) => (
+          {vehicleAllocationTable.map((header) => (
             <div key={header} className="column header">
               {header}
             </div>
