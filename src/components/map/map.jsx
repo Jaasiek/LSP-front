@@ -61,7 +61,7 @@ export default function Map() {
               classNamePrefix="rs"
               placeholder="Wybierz lokalizację..."
               options={options}
-              // value={options.find((o) => o.value === selectedId) || options[0]} // <- domyślna wartość
+              value={options.find((o) => o.value === selectedId)}
               onChange={(opt) => {
                 const id = opt ? opt.value : "";
                 setSelectedId(id);

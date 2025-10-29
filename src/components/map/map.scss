@@ -1,11 +1,6 @@
-.map-section {
-  --bg: #0b0b0c;
-  --panel: #121214;
-  --muted: #9a9a9e;
-  --accent: #ff7a00;
-  --accent-700: #e36900;
-  --border: #1e1e22;
+@use "../../colors.scss";
 
+.map-section {
   padding: 5rem 0.5rem;
   gap: 2rem;
   background: radial-gradient(
