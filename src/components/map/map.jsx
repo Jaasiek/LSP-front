@@ -1,222 +1,37 @@
+import { useRef, useState, useMemo } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import Select from "react-select";
+import locations from "./locations";
+import "./map.scss";
 
 const containerStyle = {
-  width: "30%",
-  height: "400px",
+  width: "100%",
+  height: "520px",
 };
 
-// Środek mapy (Warszawa)
 const center = {
   lat: 52.2297,
   lng: 21.0122,
 };
 
-const locations = [
-  { id: "LOC-0001", lat: 53.007467, lng: 21.843845 },
-  { id: "LOC-0002", lat: 51.399369, lng: 20.874733 },
-  { id: "LOC-0003", lat: 50.3207, lng: 22.789254 },
-  { id: "LOC-0004", lat: 53.009453, lng: 17.066896 },
-  { id: "LOC-0005", lat: 52.539203, lng: 16.156125 },
-  { id: "LOC-0006", lat: 52.71695, lng: 22.696852 },
-  { id: "LOC-0007", lat: 52.727441, lng: 14.849734 },
-  { id: "LOC-0008", lat: 50.511054, lng: 23.827863 },
-  { id: "LOC-0009", lat: 54.029942, lng: 22.311749 },
-  { id: "LOC-0010", lat: 50.441339, lng: 16.606048 },
-  { id: "LOC-0011", lat: 49.719741, lng: 22.701771 },
-  { id: "LOC-0012", lat: 53.755239, lng: 16.93675 },
-  { id: "LOC-0013", lat: 50.244203, lng: 23.232424 },
-  { id: "LOC-0014", lat: 52.146761, lng: 22.465005 },
-  { id: "LOC-0015", lat: 51.355498, lng: 20.034709 },
-  { id: "LOC-0016", lat: 50.350508, lng: 19.224307 },
-  { id: "LOC-0017", lat: 54.188614, lng: 17.950101 },
-  { id: "LOC-0018", lat: 52.811406, lng: 17.603887 },
-  { id: "LOC-0019", lat: 51.282166, lng: 16.908929 },
-  { id: "LOC-0020", lat: 52.463785, lng: 22.434513 },
-  { id: "LOC-0021", lat: 53.847243, lng: 21.030762 },
-  { id: "LOC-0022", lat: 49.550426, lng: 22.333438 },
-  { id: "LOC-0023", lat: 50.857448, lng: 18.395532 },
-  { id: "LOC-0024", lat: 54.218458, lng: 18.629296 },
-  { id: "LOC-0025", lat: 51.299502, lng: 20.020918 },
-  { id: "LOC-0026", lat: 49.831004, lng: 22.281822 },
-  { id: "LOC-0027", lat: 51.966324, lng: 21.365073 },
-  { id: "LOC-0028", lat: 51.841689, lng: 23.067959 },
-  { id: "LOC-0029", lat: 53.41161, lng: 19.009283 },
-  { id: "LOC-0030", lat: 52.000404, lng: 18.129066 },
-  { id: "LOC-0031", lat: 53.027187, lng: 17.970626 },
-  { id: "LOC-0032", lat: 52.572041, lng: 19.00023 },
-  { id: "LOC-0033", lat: 50.944977, lng: 15.657021 },
-  { id: "LOC-0034", lat: 54.575732, lng: 18.491778 },
-  { id: "LOC-0035", lat: 52.454857, lng: 20.706122 },
-  { id: "LOC-0036", lat: 51.272805, lng: 17.71087 },
-  { id: "LOC-0037", lat: 52.978014, lng: 19.749387 },
-  { id: "LOC-0038", lat: 50.156733, lng: 20.891983 },
-  { id: "LOC-0039", lat: 50.839721, lng: 23.142114 },
-  { id: "LOC-0040", lat: 53.341144, lng: 15.522724 },
-  { id: "LOC-0041", lat: 50.998781, lng: 23.552434 },
-  { id: "LOC-0042", lat: 53.822132, lng: 20.449839 },
-  { id: "LOC-0043", lat: 54.177399, lng: 17.023851 },
-  { id: "LOC-0044", lat: 53.364539, lng: 21.631212 },
-  { id: "LOC-0045", lat: 52.215928, lng: 23.024901 },
-  { id: "LOC-0046", lat: 54.032336, lng: 16.524238 },
-  { id: "LOC-0047", lat: 50.855396, lng: 21.350762 },
-  { id: "LOC-0048", lat: 52.991046, lng: 18.403988 },
-  { id: "LOC-0049", lat: 51.682679, lng: 23.187693 },
-  { id: "LOC-0050", lat: 52.148724, lng: 17.325682 },
-  { id: "LOC-0051", lat: 53.10776, lng: 15.892857 },
-  { id: "LOC-0052", lat: 52.797756, lng: 21.218077 },
-  { id: "LOC-0053", lat: 53.561719, lng: 14.695169 },
-  { id: "LOC-0054", lat: 51.104721, lng: 15.189999 },
-  { id: "LOC-0055", lat: 53.319377, lng: 18.34725 },
-  { id: "LOC-0056", lat: 54.038413, lng: 21.48534 },
-  { id: "LOC-0057", lat: 51.491032, lng: 22.58811 },
-  { id: "LOC-0058", lat: 51.92886, lng: 22.467284 },
-  { id: "LOC-0059", lat: 52.083479, lng: 21.056751 },
-  { id: "LOC-0060", lat: 54.181002, lng: 21.180966 },
-  { id: "LOC-0061", lat: 52.15004, lng: 16.891728 },
-  { id: "LOC-0062", lat: 53.607283, lng: 17.485151 },
-  { id: "LOC-0063", lat: 52.461137, lng: 16.883748 },
-  { id: "LOC-0064", lat: 53.566796, lng: 15.505052 },
-  { id: "LOC-0065", lat: 51.294342, lng: 20.226607 },
-  { id: "LOC-0066", lat: 53.167353, lng: 19.649064 },
-  { id: "LOC-0067", lat: 53.011412, lng: 18.782064 },
-  { id: "LOC-0068", lat: 53.732492, lng: 20.410598 },
-  { id: "LOC-0069", lat: 52.597982, lng: 16.296863 },
-  { id: "LOC-0070", lat: 51.771802, lng: 23.225259 },
-  { id: "LOC-0071", lat: 52.22788, lng: 22.503364 },
-  { id: "LOC-0072", lat: 53.0762, lng: 23.692299 },
-  { id: "LOC-0073", lat: 50.570676, lng: 22.306903 },
-  { id: "LOC-0074", lat: 51.041292, lng: 20.578766 },
-  { id: "LOC-0075", lat: 50.406085, lng: 18.305701 },
-  { id: "LOC-0076", lat: 52.668646, lng: 15.083948 },
-  { id: "LOC-0077", lat: 49.964034, lng: 19.104083 },
-  { id: "LOC-0078", lat: 53.936905, lng: 20.975223 },
-  { id: "LOC-0079", lat: 52.828538, lng: 21.212669 },
-  { id: "LOC-0080", lat: 53.481308, lng: 21.953563 },
-  { id: "LOC-0081", lat: 53.886241, lng: 22.276195 },
-  { id: "LOC-0082", lat: 52.780453, lng: 14.969571 },
-  { id: "LOC-0083", lat: 53.546547, lng: 23.603929 },
-  { id: "LOC-0084", lat: 53.830783, lng: 20.170121 },
-  { id: "LOC-0085", lat: 50.459525, lng: 20.596335 },
-  { id: "LOC-0086", lat: 51.094992, lng: 21.430204 },
-  { id: "LOC-0087", lat: 52.177829, lng: 21.516273 },
-  { id: "LOC-0088", lat: 51.99589, lng: 23.078278 },
-  { id: "LOC-0089", lat: 53.547667, lng: 15.546541 },
-  { id: "LOC-0090", lat: 53.931931, lng: 20.600499 },
-  { id: "LOC-0091", lat: 54.197238, lng: 17.503717 },
-  { id: "LOC-0092", lat: 52.147437, lng: 15.236608 },
-  { id: "LOC-0093", lat: 50.988144, lng: 18.690519 },
-  { id: "LOC-0094", lat: 53.735558, lng: 15.694643 },
-  { id: "LOC-0095", lat: 50.442276, lng: 23.276518 },
-  { id: "LOC-0096", lat: 52.597805, lng: 22.179361 },
-  { id: "LOC-0097", lat: 52.124441, lng: 20.987657 },
-  { id: "LOC-0098", lat: 51.11864, lng: 16.585304 },
-  { id: "LOC-0099", lat: 52.849463, lng: 19.242312 },
-  { id: "LOC-0100", lat: 53.92294, lng: 23.090554 },
-  { id: "LOC-0101", lat: 50.267859, lng: 21.991229 },
-  { id: "LOC-0102", lat: 54.065174, lng: 19.787103 },
-  { id: "LOC-0103", lat: 52.38869, lng: 20.00748 },
-  { id: "LOC-0104", lat: 50.360159, lng: 18.430617 },
-  { id: "LOC-0105", lat: 53.561987, lng: 19.705853 },
-  { id: "LOC-0106", lat: 52.208115, lng: 18.481034 },
-  { id: "LOC-0107", lat: 50.730565, lng: 21.991261 },
-  { id: "LOC-0108", lat: 53.667905, lng: 17.168857 },
-  { id: "LOC-0109", lat: 54.28306, lng: 17.10939 },
-  { id: "LOC-0110", lat: 52.935558, lng: 19.101167 },
-  { id: "LOC-0111", lat: 52.587386, lng: 16.979455 },
-  { id: "LOC-0112", lat: 52.069116, lng: 17.318163 },
-  { id: "LOC-0113", lat: 53.398015, lng: 16.227885 },
-  { id: "LOC-0114", lat: 51.479661, lng: 22.653612 },
-  { id: "LOC-0115", lat: 53.773621, lng: 22.392511 },
-  { id: "LOC-0116", lat: 49.46181, lng: 19.133689 },
-  { id: "LOC-0117", lat: 53.752837, lng: 17.299153 },
-  { id: "LOC-0118", lat: 50.285016, lng: 19.268972 },
-  { id: "LOC-0119", lat: 54.106352, lng: 21.884368 },
-  { id: "LOC-0120", lat: 50.76473, lng: 19.852046 },
-  { id: "LOC-0121", lat: 52.291631, lng: 17.138751 },
-  { id: "LOC-0122", lat: 53.35273, lng: 14.466682 },
-  { id: "LOC-0123", lat: 53.68081, lng: 21.743525 },
-  { id: "LOC-0124", lat: 50.951039, lng: 19.513824 },
-  { id: "LOC-0125", lat: 49.697662, lng: 18.899302 },
-  { id: "LOC-0126", lat: 53.485198, lng: 17.289007 },
-  { id: "LOC-0127", lat: 50.821541, lng: 20.120357 },
-  { id: "LOC-0128", lat: 52.255895, lng: 14.878326 },
-  { id: "LOC-0129", lat: 54.154723, lng: 21.633742 },
-  { id: "LOC-0130", lat: 50.950614, lng: 18.856369 },
-  { id: "LOC-0131", lat: 52.438524, lng: 21.471583 },
-  { id: "LOC-0132", lat: 54.318666, lng: 19.106792 },
-  { id: "LOC-0133", lat: 53.240408, lng: 20.428957 },
-  { id: "LOC-0134", lat: 52.588408, lng: 23.365496 },
-  { id: "LOC-0135", lat: 53.231636, lng: 20.434107 },
-  { id: "LOC-0136", lat: 49.498309, lng: 21.502195 },
-  { id: "LOC-0137", lat: 53.056007, lng: 16.006715 },
-  { id: "LOC-0138", lat: 50.972207, lng: 20.914171 },
-  { id: "LOC-0139", lat: 50.546215, lng: 21.668563 },
-  { id: "LOC-0140", lat: 50.487094, lng: 16.328854 },
-  { id: "LOC-0141", lat: 50.169035, lng: 18.813412 },
-  { id: "LOC-0142", lat: 50.913575, lng: 17.849251 },
-  { id: "LOC-0143", lat: 53.607638, lng: 17.259928 },
-  { id: "LOC-0144", lat: 52.851355, lng: 18.550484 },
-  { id: "LOC-0145", lat: 50.201891, lng: 20.965273 },
-  { id: "LOC-0146", lat: 50.978011, lng: 19.23824 },
-  { id: "LOC-0147", lat: 53.188622, lng: 15.066557 },
-  { id: "LOC-0148", lat: 53.891848, lng: 23.222656 },
-  { id: "LOC-0149", lat: 49.789893, lng: 22.56491 },
-  { id: "LOC-0150", lat: 50.073569, lng: 22.507817 },
-  { id: "LOC-0151", lat: 49.666663, lng: 19.420992 },
-  { id: "LOC-0152", lat: 51.825516, lng: 17.532311 },
-  { id: "LOC-0153", lat: 52.320119, lng: 20.222615 },
-  { id: "LOC-0154", lat: 53.022283, lng: 15.181173 },
-  { id: "LOC-0155", lat: 53.993441, lng: 19.872621 },
-  { id: "LOC-0156", lat: 53.00185, lng: 22.798138 },
-  { id: "LOC-0157", lat: 53.568942, lng: 22.145634 },
-  { id: "LOC-0158", lat: 51.642136, lng: 19.273261 },
-  { id: "LOC-0159", lat: 51.092481, lng: 21.879352 },
-  { id: "LOC-0160", lat: 53.262647, lng: 22.25553 },
-  { id: "LOC-0161", lat: 54.044902, lng: 17.537458 },
-  { id: "LOC-0162", lat: 52.785389, lng: 15.94459 },
-  { id: "LOC-0163", lat: 52.271648, lng: 14.641447 },
-  { id: "LOC-0164", lat: 54.114422, lng: 21.930382 },
-  { id: "LOC-0165", lat: 52.433303, lng: 16.606366 },
-  { id: "LOC-0166", lat: 52.26751, lng: 18.338753 },
-  { id: "LOC-0167", lat: 49.83593, lng: 21.054216 },
-  { id: "LOC-0168", lat: 53.157668, lng: 23.492026 },
-  { id: "LOC-0169", lat: 50.311489, lng: 21.076427 },
-  { id: "LOC-0170", lat: 51.842426, lng: 20.167215 },
-  { id: "LOC-0171", lat: 50.785451, lng: 23.951801 },
-  { id: "LOC-0172", lat: 50.603688, lng: 23.305042 },
-  { id: "LOC-0173", lat: 51.194938, lng: 22.016676 },
-  { id: "LOC-0174", lat: 51.616842, lng: 17.916711 },
-  { id: "LOC-0175", lat: 50.632052, lng: 17.147157 },
-  { id: "LOC-0176", lat: 52.865582, lng: 23.784796 },
-  { id: "LOC-0177", lat: 54.288302, lng: 16.976897 },
-  { id: "LOC-0178", lat: 53.363011, lng: 21.818077 },
-  { id: "LOC-0179", lat: 52.054215, lng: 17.809917 },
-  { id: "LOC-0180", lat: 51.583894, lng: 17.689219 },
-  { id: "LOC-0181", lat: 53.933922, lng: 20.665388 },
-  { id: "LOC-0182", lat: 52.677866, lng: 18.382364 },
-  { id: "LOC-0183", lat: 51.664124, lng: 23.222341 },
-  { id: "LOC-0184", lat: 54.501927, lng: 18.395862 },
-  { id: "LOC-0185", lat: 52.8234, lng: 18.47181 },
-  { id: "LOC-0186", lat: 52.873486, lng: 21.859028 },
-  { id: "LOC-0187", lat: 52.094767, lng: 23.428005 },
-  { id: "LOC-0188", lat: 52.035503, lng: 19.992321 },
-  { id: "LOC-0189", lat: 52.286698, lng: 16.054268 },
-  { id: "LOC-0190", lat: 50.932245, lng: 21.840833 },
-  { id: "LOC-0191", lat: 51.933929, lng: 21.727437 },
-  { id: "LOC-0192", lat: 54.070686, lng: 18.886221 },
-  { id: "LOC-0193", lat: 50.794424, lng: 23.572759 },
-  { id: "LOC-0194", lat: 50.568382, lng: 23.126376 },
-  { id: "LOC-0195", lat: 51.661193, lng: 20.290896 },
-  { id: "LOC-0196", lat: 53.224001, lng: 23.547048 },
-  { id: "LOC-0197", lat: 51.197018, lng: 18.749575 },
-  { id: "LOC-0198", lat: 54.451267, lng: 17.210527 },
-  { id: "LOC-0199", lat: 50.764096, lng: 19.198656 },
-  { id: "LOC-0200", lat: 53.115891, lng: 20.679862 },
-];
-
 export default function Map() {
+  const mapRef = useRef(null);
+  const [selectedId, setSelectedId] = useState("");
+  const options = useMemo(
+    () => locations.map((loc) => ({ value: String(loc.id), label: String(loc.id) })),
+    []
+  );
+
   function getData(id) {
     console.log("Location id: " + id);
+  }
+
+  function focusLocationById(id) {
+    const loc = locations.find((l) => String(l.id) === String(id));
+    if (loc && mapRef.current) {
+      mapRef.current.panTo({ lat: loc.lat, lng: loc.lng });
+      mapRef.current.setZoom(8);
+    }
   }
 
   const { isLoaded } = useJsApiLoader({
@@ -229,19 +44,62 @@ export default function Map() {
   }
 
   return (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={5.5} // zmniejszone zoom, aby wszystkie punkty się zmieściły
-    >
-      {locations.map((loc) => (
-        <Marker
-          key={loc.id}
-          position={{ lat: loc.lat, lng: loc.lng }}
-          title={loc.id}
-          onClick={() => getData(loc.id)}
-        />
-      ))}
-    </GoogleMap>
+    <section className="map-section">
+      <div className="map-card">
+        <div className="map-header">
+          <h2 className="map-title">Mapa lokalizacji</h2>
+          <div className="map-select">
+            <Select
+              className="rs-select"
+              classNamePrefix="rs"
+              placeholder="Wybierz lokalizację..."
+              options={options}
+              value={options.find((o) => o.value === selectedId) || null}
+              onChange={(opt) => {
+                const id = opt ? opt.value : "";
+                setSelectedId(id);
+                if (id) focusLocationById(id);
+              }}
+              isClearable
+            />
+          </div>
+        </div>
+
+        <div className="map-canvas">
+          <GoogleMap
+            onLoad={(map) => {
+              mapRef.current = map;
+            }}
+            onUnmount={() => {
+              mapRef.current = null;
+            }}
+            mapContainerStyle={containerStyle}
+            center={center}
+            zoom={6}
+          >
+            {locations.map((loc) => {
+              const isSelected = selectedId && String(loc.id) === String(selectedId);
+              return (
+                <Marker
+                  key={loc.id}
+                  position={{ lat: loc.lat, lng: loc.lng }}
+                  title={String(loc.id)}
+                  opacity={isSelected ? 1 : selectedId ? 0.6 : 1}
+                  zIndex={isSelected ? 1000 : 1}
+                  animation={isSelected && window.google ? window.google.maps.Animation.BOUNCE : undefined}
+                  onClick={() => {
+                    const id = String(loc.id);
+                    setSelectedId(id);
+                    focusLocationById(id);
+                  }}
+                />
+              );
+            })}
+          </GoogleMap>
+        </div>
+
+        <div className="map-details-reserved" aria-label="reserved-details-area" />
+      </div>
+    </section>
   );
 }

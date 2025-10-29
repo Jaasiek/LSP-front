@@ -1,0 +1,106 @@
+.map-section {
+  --bg: #0b0b0c;
+  --panel: #121214;
+  --muted: #9a9a9e;
+  --accent: #ff7a00;
+  --accent-700: #e36900;
+  --border: #1e1e22;
+
+  padding: 24px;
+  background: radial-gradient(1200px 500px at 10% 0%, rgba(255, 122, 0, 0.08), transparent),
+              radial-gradient(900px 400px at 90% 0%, rgba(255, 122, 0, 0.06), transparent),
+              var(--bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.map-card {
+  width: 100%;
+  max-width: 1200px;
+  background: linear-gradient(180deg, rgba(255, 122, 0, 0.06), rgba(255, 122, 0, 0)) , var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 122, 0, 0.05) inset;
+  overflow: hidden;
+  animation: mapCardIn 420ms cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes mapCardIn {
+  from { opacity: 0; transform: translateY(8px) scale(.99); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+.map-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  background: linear-gradient(180deg, rgba(255, 122, 0, 0.07), rgba(255, 122, 0, 0));
+  border-bottom: 1px solid var(--border);
+}
+
+.map-title {
+  margin: 0;
+  color: #fff;
+  font-size: 18px;
+  letter-spacing: .2px;
+}
+
+.map-select { width: 320px; margin-left: auto; }
+
+/* react-select theming */
+.rs__control {
+  background: #0e0e10 !important;
+  border-color: #232328 !important;
+  box-shadow: none !important;
+  color: #fff !important;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+.rs__control:hover { border-color: #2d2d33 !important; }
+.rs__control--is-focused {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 2px rgba(255, 122, 0, .2) !important;
+}
+.rs__menu { background: #0f0f12 !important; border: 1px solid #24242a; overflow: hidden; }
+.rs__option { background: transparent !important; color: #e6e6e8 !important; }
+.rs__option--is-focused { background: rgba(255, 122, 0, .12) !important; }
+.rs__option--is-selected { background: rgba(255, 122, 0, .22) !important; color: #fff !important; }
+.rs__single-value { color: #fff !important; }
+.rs__placeholder { color: var(--muted) !important; }
+.rs__indicator-separator { display: none; }
+.rs__dropdown-indicator { color: var(--muted) !important; }
+.rs__clear-indicator { color: var(--muted) !important; }
+
+.map-canvas {
+  padding: 14px 18px 18px;
+}
+
+/* Keep the map responsive in the card */
+.map-canvas > div { /* GoogleMap container */
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255, 122, 0, 0.1) inset, 0 8px 20px rgba(0,0,0,.35);
+  transform: translateZ(0);
+  will-change: transform, box-shadow;
+  animation: mapFloatIn 500ms cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes mapFloatIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.map-details-reserved {
+  border-top: 1px dashed rgba(255, 122, 0, .35);
+  background: linear-gradient(180deg, rgba(255, 122, 0, 0.05), rgba(255, 122, 0, 0));
+  min-height: 220px;
+  padding: 16px 18px 22px;
+}
+
+/* Subtle breathing glow on focus selection */
+.map-card:has(.rs__control--is-focused) {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 122, 0, 0.06) inset, 0 0 0 3px rgba(255, 122, 0, 0.08);
+}
+
