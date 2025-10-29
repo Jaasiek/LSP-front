@@ -1,11 +1,5 @@
-<<<<<<< HEAD:lsp-front-react/src/components/ui/card.tsx
 import * as React from "react";
-
 import { cn } from "@/lib/utils";
-=======
-import * as React from "react"
-import { cn } from "@/lib/utils"
->>>>>>> f9d3cda118b7ab9d6ea90c8bff0f17f8fe26a86f:lsp-front-react/src/components/ui/card.jsx
 
 function Card({ className, ...props }) {
   return (
@@ -94,9 +88,4 @@ export {
   CardAction,
   CardDescription,
   CardContent,
-<<<<<<< HEAD:lsp-front-react/src/components/ui/card.tsx
 };
-=======
-}
-
->>>>>>> f9d3cda118b7ab9d6ea90c8bff0f17f8fe26a86f:lsp-front-react/src/components/ui/card.jsx

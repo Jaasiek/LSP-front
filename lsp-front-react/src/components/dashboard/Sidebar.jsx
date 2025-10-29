@@ -1,27 +1,9 @@
-<<<<<<< HEAD:lsp-front-react/src/components/dashboard/Sidebar.tsx
-"use client";
 import { Card, CardContent } from "@/components/ui/card";
-import { Truck, MapPin, Wrench, FileText, Settings } from "lucide-react";
-import { StatusItem } from "./shared";
+import { Truck, MapPin, Wrench, FileText } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-
-export function Sidebar({
-  systemStatus,
-  securityLevel,
-  networkStatus,
-}: {
-  systemStatus: number;
-  securityLevel: number;
-  networkStatus: number;
-}) {
-=======
-import { Card, CardContent } from "@/components/ui/card"
-import { Truck, MapPin, Wrench, FileText } from "lucide-react"
-import { Link, useLocation } from "react-router-dom"
 
 // Bezpieczny Sidebar z domyślnymi wartościami - uproszczona wersja bez statusów
 export function Sidebar() {
->>>>>>> f9d3cda118b7ab9d6ea90c8bff0f17f8fe26a86f:lsp-front-react/src/components/dashboard/Sidebar.jsx
   const location = useLocation();
 
   const navItems = [
@@ -55,28 +37,7 @@ export function Sidebar() {
             );
           })}
         </nav>
-<<<<<<< HEAD:lsp-front-react/src/components/dashboard/Sidebar.tsx
-        <div className="mt-8 pt-6 border-t border-slate-700/50">
-          <div className="text-xs text-slate-500 mb-2 font-mono">
-            SYSTEM STATUS
-          </div>
-          <div className="space-y-3">
-            <StatusItem
-              label="Core Systems"
-              value={systemStatus}
-              color="cyan"
-            />
-            <StatusItem label="Security" value={securityLevel} color="green" />
-            <StatusItem label="Network" value={networkStatus} color="blue" />
-          </div>
-        </div>
-=======
->>>>>>> f9d3cda118b7ab9d6ea90c8bff0f17f8fe26a86f:lsp-front-react/src/components/dashboard/Sidebar.jsx
       </CardContent>
     </Card>
   );
 }
-<<<<<<< HEAD:lsp-front-react/src/components/dashboard/Sidebar.tsx
-=======
-
->>>>>>> f9d3cda118b7ab9d6ea90c8bff0f17f8fe26a86f:lsp-front-react/src/components/dashboard/Sidebar.jsx
