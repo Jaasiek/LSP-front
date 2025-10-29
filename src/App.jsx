@@ -24,12 +24,6 @@ function App() {
           <Route path="/upcomingServices" element={<UpcomingService />} />
           <Route path="/history" element={<ChangesHistory />} />
         </Routes>
-        <ChangeAllocForm
-          id={1}
-          currentAlloc={8}
-          brand={"MAN"}
-          licencePlate={"WWL 1232K"}
-        />
       </div>
     </Router>
   );
