@@ -15,7 +15,7 @@ export default function Map() {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyBCXH8M2htOaqMfhLSn55G2nXj1x7FrXIQ"
-  });
+  }); 
   if (!isLoaded) {
     return <p>Ładowanie mapy...</p>;
   }
