@@ -38,7 +38,7 @@ export function RightSidebar({ currentTime = new Date() }) {
               <div className="text-xs text-slate-500 mb-1 font-mono">
                 SYSTEM TIME
               </div>
-              <div className="text-3xl font-mono text-cyan-400 mb-1">
+              <div className="text-3xl font-mono text-red-400 mb-1">
                 {formatTime(currentTime)}
               </div>
               <div className="text-sm text-slate-400">

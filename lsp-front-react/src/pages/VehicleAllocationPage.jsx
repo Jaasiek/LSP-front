@@ -39,7 +39,7 @@ function EditModal({ vehicle, onClose = () => {}, onSuccess = () => {} }) {
           ×
         </button>
 
-        <h2 className="text-xl font-bold text-cyan-400 mb-2">
+        <h2 className="text-xl font-bold text-red-400 mb-2">
           Zmień przypisanie pojazdu
         </h2>
         <p className="text-sm text-slate-400 mb-6">
@@ -48,7 +48,7 @@ function EditModal({ vehicle, onClose = () => {}, onSuccess = () => {} }) {
 
         <div className="bg-slate-800/50 rounded-lg p-4 mb-6 border border-slate-700/50">
           <div className="flex items-center gap-3 mb-3">
-            <Truck className="h-6 w-6 text-cyan-400" />
+            <Truck className="h-6 w-6 text-red-400" />
             <span className="text-slate-200 font-medium">
               {vehicle.make || "N/A"}
             </span>
@@ -56,7 +56,7 @@ function EditModal({ vehicle, onClose = () => {}, onSuccess = () => {} }) {
           </div>
           <p className="text-sm text-slate-300">
             Aktualne przypisanie:{" "}
-            <span className="font-bold text-cyan-400">
+            <span className="font-bold text-red-400">
               Trasa {vehicle.route || "N/A"}
             </span>
           </p>
@@ -71,7 +71,7 @@ function EditModal({ vehicle, onClose = () => {}, onSuccess = () => {} }) {
             type="text"
             value={newRoute}
             onChange={(e) => setNewRoute(e.target.value)}
-            className="w-full bg-slate-800 border border-slate-700 rounded-md px-3 py-2 text-slate-200 focus:outline-none focus:border-cyan-500"
+            className="w-full bg-slate-800 border border-slate-700 rounded-md px-3 py-2 text-slate-200 focus:outline-none focus:border-red-500"
             placeholder="Numer trasy"
           />
         </div>
@@ -111,7 +111,7 @@ export default function VehicleAllocationPage() {
       <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="text-slate-100 flex items-center">
-            <Truck className="mr-2 h-5 w-5 text-cyan-500" />
+            <Truck className="mr-2 h-5 w-5 text-red-500" />
             Przydział Pojazdów
           </CardTitle>
         </CardHeader>
@@ -146,7 +146,7 @@ export default function VehicleAllocationPage() {
                   <TableCell className="text-slate-300">
                     <Badge
                       variant="outline"
-                      className="bg-slate-800/50 text-cyan-400 border-cyan-500/50"
+                      className="bg-slate-800/50 text-red-400 border-red-500/50"
                     >
                       Trasa {vehicle?.route || "N/A"}
                     </Badge>
@@ -156,7 +156,7 @@ export default function VehicleAllocationPage() {
                       variant="ghost"
                       size="sm"
                       onClick={() => setEditingVehicle(vehicle)}
-                      className="text-cyan-400 hover:text-cyan-300 hover:bg-slate-700/50"
+                      className="text-red-400 hover:text-red-300 hover:bg-slate-700/50"
                     >
                       <Edit className="h-4 w-4 mr-2" />
                       Edytuj

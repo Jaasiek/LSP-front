@@ -95,8 +95,8 @@ export default function UpcomingServicesPage() {
       return <ArrowUpDown className="h-4 w-4 ml-1 text-slate-500" />;
     }
     return sortDirection === "asc" 
-      ? <ArrowUp className="h-4 w-4 ml-1 text-cyan-400" />
-      : <ArrowDown className="h-4 w-4 ml-1 text-cyan-400" />;
+      ? <ArrowUp className="h-4 w-4 ml-1 text-red-400" />
+      : <ArrowDown className="h-4 w-4 ml-1 text-red-400" />;
   };
 
   return (
@@ -121,7 +121,7 @@ export default function UpcomingServicesPage() {
             <TableHeader>
               <TableRow className="border-slate-700/50 hover:bg-slate-800/30">
                 <TableHead 
-                  className="text-slate-300 cursor-pointer hover:text-cyan-400 transition-colors"
+                  className="text-slate-300 cursor-pointer hover:text-red-400 transition-colors"
                   onClick={() => handleSort("make")}
                 >
                   <div className="flex items-center">
@@ -130,7 +130,7 @@ export default function UpcomingServicesPage() {
                   </div>
                 </TableHead>
                 <TableHead 
-                  className="text-slate-300 cursor-pointer hover:text-cyan-400 transition-colors"
+                  className="text-slate-300 cursor-pointer hover:text-red-400 transition-colors"
                   onClick={() => handleSort("licencePlate")}
                 >
                   <div className="flex items-center">
@@ -139,7 +139,7 @@ export default function UpcomingServicesPage() {
                   </div>
                 </TableHead>
                 <TableHead 
-                  className="text-slate-300 cursor-pointer hover:text-cyan-400 transition-colors"
+                  className="text-slate-300 cursor-pointer hover:text-red-400 transition-colors"
                   onClick={() => handleSort("route")}
                 >
                   <div className="flex items-center">
@@ -148,7 +148,7 @@ export default function UpcomingServicesPage() {
                   </div>
                 </TableHead>
                 <TableHead 
-                  className="text-slate-300 cursor-pointer hover:text-cyan-400 transition-colors"
+                  className="text-slate-300 cursor-pointer hover:text-red-400 transition-colors"
                   onClick={() => handleSort("odometer")}
                 >
                   <div className="flex items-center">
@@ -157,7 +157,7 @@ export default function UpcomingServicesPage() {
                   </div>
                 </TableHead>
                 <TableHead 
-                  className="text-slate-300 cursor-pointer hover:text-cyan-400 transition-colors"
+                  className="text-slate-300 cursor-pointer hover:text-red-400 transition-colors"
                   onClick={() => handleSort("priority")}
                 >
                   <div className="flex items-center">
@@ -166,7 +166,7 @@ export default function UpcomingServicesPage() {
                   </div>
                 </TableHead>
                 <TableHead 
-                  className="text-slate-300 cursor-pointer hover:text-cyan-400 transition-colors"
+                  className="text-slate-300 cursor-pointer hover:text-red-400 transition-colors"
                   onClick={() => handleSort("daysUntilService")}
                 >
                   <div className="flex items-center">
@@ -212,7 +212,7 @@ export default function UpcomingServicesPage() {
                     <TableCell className="text-slate-300">
                       <Badge
                         variant="outline"
-                        className="bg-slate-800/50 text-cyan-400 border-cyan-500/50"
+                        className="bg-slate-800/50 text-red-400 border-red-500/50"
                       >
                         Trasa {vehicle?.route || "N/A"}
                       </Badge>
