@@ -1,4 +1,4 @@
-// import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -7,10 +7,6 @@ import {
 } from "@/components/ui/tooltip";
 import { Bell } from "lucide-react";
 import LSPGroup_logo_white from "../../../public/LSPGroup_logo_white.svg";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { NotificationsPanel } from "@/components/Notifications";
-import { getUnreadNotifications } from "@/data/notifications";
 
 export function Header() {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -27,7 +23,6 @@ export function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setIsNotificationsOpen(true)}
                 className="relative text-slate-400 hover:text-slate-100"
               >
                 <Bell className="h-5 w-5" />
