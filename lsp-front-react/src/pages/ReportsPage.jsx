@@ -162,37 +162,6 @@ export default function ReportsPage() {
             <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
               <div>
                 <h4 className="text-slate-300 font-medium mb-3">
-                  Koszty Operacyjne
-                </h4>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-slate-400">Paliwo (szacowane):</span>
-                    <span className="text-slate-200">
-                      ~{(totalVehicles * 3500).toLocaleString()} zł
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-slate-400">Serwis i naprawy:</span>
-                    <span className="text-slate-200">
-                      ~{(totalVehicles * 1200).toLocaleString()} zł
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-slate-400">Ubezpieczenia:</span>
-                    <span className="text-slate-200">
-                      ~{(totalVehicles * 800).toLocaleString()} zł
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-sm font-bold pt-2 border-t border-slate-600">
-                    <span className="text-red-400">Suma:</span>
-                    <span className="text-red-400">
-                      {(totalVehicles * 5500).toLocaleString()} zł
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <h4 className="text-slate-300 font-medium mb-3">
                   Wydajność Floty
                 </h4>
                 <div className="space-y-2">
