@@ -21,30 +21,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { MapPin, ArrowRight, ArrowLeft } from "lucide-react";
 
-// Zhardcodowane trasy dla 5 lokalizacji (na potrzeby testów)
-const routesData = {
-  "LOC-0001": {
-    from: ["LOC-0006", "LOC-0020", "LOC-0052"], // Trasy wychodzące z LOC-0001
-    to: ["LOC-0002", "LOC-0014", "LOC-0027"], // Trasy przychodzące do LOC-0001
-  },
-  "LOC-0002": {
-    from: ["LOC-0015", "LOC-0025", "LOC-0027"],
-    to: ["LOC-0001", "LOC-0003", "LOC-0005"],
-  },
-  "LOC-0003": {
-    from: ["LOC-0008", "LOC-0011", "LOC-0013"],
-    to: ["LOC-0002", "LOC-0004", "LOC-0016"],
-  },
-  "LOC-0004": {
-    from: ["LOC-0007", "LOC-0018", "LOC-0031"],
-    to: ["LOC-0003", "LOC-0005", "LOC-0012"],
-  },
-  "LOC-0005": {
-    from: ["LOC-0063", "LOC-0069", "LOC-0111"],
-    to: ["LOC-0002", "LOC-0004", "LOC-0035"],
-  },
-};
-
 const containerStyle = {
   width: "100%",
   height: "520px",
@@ -58,6 +34,8 @@ const center = {
 export default function MapPage() {
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [routesData, setRotesData] = useState([]);
+  const [vehiclesData, setVehiclesData] = useState([]);
   const [error, setError] = useState(null);
   const mapRef = useRef(null);
   const [selectedId, setSelectedId] = useState("");
@@ -508,7 +486,7 @@ export default function MapPage() {
             </TableHeader>
             <TableBody>
               {Array.isArray(table_data) &&
-                table_data.map((vehicle) => (
+                vehiclesData.map((vehicle) => (
                   <TableRow
                     key={vehicle?.id || Math.random()}
                     className="border-slate-700/30 hover:bg-slate-700/30"
