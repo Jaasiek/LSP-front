@@ -152,6 +152,17 @@ export default function MapPage() {
 
   const { outgoing, incoming } = directionsResults;
 
+  // Funkcja do sprawdzenia czy lokalizacja jest używana w trasach
+  const isLocationUsedInRoutes = (locationId) => {
+    if (!selectedId || selectedId === locationId) return true; // Zawsze pokaż wybraną
+    
+    // Sprawdź czy lokalizacja jest w trasach wychodzących lub przychodzących
+    const routes = routesData[selectedId];
+    if (!routes) return false;
+    
+    return routes.from.includes(locationId) || routes.to.includes(locationId);
+  };
+
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyBCXH8M2htOaqMfhLSn55G2nXj1x7FrXIQ",
@@ -262,15 +273,33 @@ export default function MapPage() {
             >
               {/* Markery lokalizacji */}
               {locations.map((loc) => {
-                const isSelected =
-                  selectedId && String(loc.id) === String(selectedId);
+                const isSelected = selectedId && String(loc.id) === String(selectedId);
+                const isUsedInRoutes = selectedId ? isLocationUsedInRoutes(loc.id) : true;
+                
+                // Ustal opacity i zIndex na podstawie użycia
+                let opacity = 1;
+                let zIndex = 1;
+                
+                if (selectedId) {
+                  if (isSelected) {
+                    opacity = 1; // Wybrana lokalizacja - pełna widoczność
+                    zIndex = 1000; // Na górze
+                  } else if (isUsedInRoutes) {
+                    opacity = 0.85; // Lokalizacje w trasach - dobrze widoczne
+                    zIndex = 100;
+                  } else {
+                    opacity = 0.15; // Pozostałe - bardzo słabo widoczne
+                    zIndex = 1;
+                  }
+                }
+                
                 return (
                   <Marker
                     key={loc.id}
                     position={{ lat: loc.lat, lng: loc.lng }}
                     title={String(loc.id)}
-                    opacity={isSelected ? 1 : selectedId ? 0.6 : 1}
-                    zIndex={isSelected ? 1000 : 1}
+                    opacity={opacity}
+                    zIndex={zIndex}
                     animation={
                       isSelected && window.google
                         ? window.google.maps.Animation.BOUNCE
