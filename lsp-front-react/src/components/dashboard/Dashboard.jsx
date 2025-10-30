@@ -32,7 +32,7 @@ export default function Dashboard({ children }) {
               <div className="absolute inset-8 border-4 border-l-red-800 border-t-transparent border-r-transparent border-b-transparent rounded-full animate-spin"></div>
             </div>
             <div className="mt-4 text-red-500 font-mono text-sm tracking-wider">
-              SYSTEM INITIALIZING
+              Odświeżanie danych
             </div>
           </div>
         </div>
