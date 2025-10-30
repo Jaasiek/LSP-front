@@ -7,6 +7,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Bell } from "lucide-react";
+import { Link } from "react-router-dom";
 import { getUnreadNotifications } from "@/data/notifications";
 import LSPGroup_logo_white from "../../../public/LSPGroup_logo_white.svg";
 import { NotificationsPanel } from "@/components/Notifications";
@@ -17,7 +18,9 @@ export function Header() {
   return (
     <header className="flex items-center justify-between py-2 border-b border-slate-700/50 mb-4">
       <div className="flex items-center space-x-2">
-        <img src={LSPGroup_logo_white} className="h-17 w-auto " />
+        <Link to="/">
+          <img src={LSPGroup_logo_white} className="h-17 w-auto " />
+        </Link>
       </div>
       <div className="flex items-center space-x-3 ">
         <TooltipProvider>

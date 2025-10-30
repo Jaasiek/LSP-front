@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { FileText, TrendingUp, Calendar } from "lucide-react";
 
-// Bezpieczny ReportsPage z domyślnymi wartościami
 export default function ReportsPage() {
   const safeTableData = Array.isArray(table_data) ? table_data : [];
   const totalVehicles = safeTableData.length;
@@ -13,9 +12,8 @@ export default function ReportsPage() {
   );
   const averageMileage =
     totalVehicles > 0 ? Math.round(totalMileage / totalVehicles) : 0;
-  const effectiveness = 10 + Math.random() * 90; // losowa efektywność między 60% a 100%
+  const effectiveness = 10 + Math.random() * 90;
 
-  // Calculate statistics by brand - bezpieczne
   const brandStats = safeTableData.reduce((acc, vehicle) => {
     const make = vehicle?.make || "Unknown";
     if (!acc[make]) {

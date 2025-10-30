@@ -145,6 +145,7 @@ export function MetricCard({
   trend = "stable",
   color = "cyan",
   detail = "No details",
+  percentage = false,
 }) {
   const getColor = () => {
     switch (color) {
@@ -185,7 +186,8 @@ export function MetricCard({
         <Icon className={`h-5 w-5 text-${color}-500`} />
       </div>
       <div className="text-2xl font-bold mb-1 bg-gradient-to-r bg-clip-text text-transparent from-slate-100 to-slate-300">
-        {value}%
+        {value}
+        {percentage ? "%" : ""}
       </div>
       <div className="text-xs text-slate-500">{detail}</div>
       <div className="absolute bottom-2 right-2 flex items-center">

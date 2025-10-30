@@ -13,32 +13,38 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { History, Clock, User, ArrowRight } from "lucide-react";
 
-// Funkcja do generowania dat z ostatnich 3 tygodni
 function generateRandomDate() {
   const now = new Date();
   const threeWeeksAgo = new Date(now.getTime() - 21 * 24 * 60 * 60 * 1000);
-  const randomTime = threeWeeksAgo.getTime() + Math.random() * (now.getTime() - threeWeeksAgo.getTime());
+  const randomTime =
+    threeWeeksAgo.getTime() +
+    Math.random() * (now.getTime() - threeWeeksAgo.getTime());
   return new Date(randomTime);
 }
 
-// Generowanie przykładowych danych historii zmian
 function generateHistoryData() {
   const safeTableData = Array.isArray(table_data) ? table_data : [];
   const history = [];
-  const users = ["Jan Kowalski", "Anna Nowak", "Piotr Wiśniewski", "Katarzyna Dąbrowska", "Marek Lewandowski"];
-  
-  // Generuj 40 losowych zmian z ostatnich 3 tygodni
+  const users = [
+    "Jan Kowalski",
+    "Anna Nowak",
+    "Piotr Wiśniewski",
+    "Katarzyna Dąbrowska",
+    "Marek Lewandowski",
+  ];
+
   for (let i = 0; i < 40; i++) {
-    const vehicle = safeTableData[Math.floor(Math.random() * safeTableData.length)];
+    const vehicle =
+      safeTableData[Math.floor(Math.random() * safeTableData.length)];
     if (!vehicle) continue;
-    
+
     const oldRoute = Math.floor(Math.random() * 10) + 1;
     const newRoute = Math.floor(Math.random() * 10) + 1;
     const changeDate = generateRandomDate();
     const user = users[Math.floor(Math.random() * users.length)];
-    
+
     history.push({
-      id: `CHANGE-${String(i + 1).padStart(4, '0')}`,
+      id: `CHANGE-${String(i + 1).padStart(4, "0")}`,
       vehicleId: vehicle.id,
       licencePlate: vehicle.licencePlate,
       make: vehicle.make,
@@ -46,11 +52,11 @@ function generateHistoryData() {
       newRoute: `Trasa ${newRoute}`,
       changeDate: changeDate,
       changedBy: user,
-      reason: Math.random() > 0.5 ? "Optymalizacja tras" : "Zmiana zapotrzebowania",
+      reason:
+        Math.random() > 0.5 ? "Optymalizacja tras" : "Zmiana zapotrzebowania",
     });
   }
-  
-  // Sortuj od najnowszych
+
   return history.sort((a, b) => b.changeDate - a.changeDate);
 }
 
@@ -58,20 +64,20 @@ export default function HistoryPage() {
   const [historyData] = useState(generateHistoryData());
   const [filterDays, setFilterDays] = useState(21);
 
-  // Filtrowanie danych według wybranego okresu
-  const filteredHistory = historyData.filter(change => {
+  const filteredHistory = historyData.filter((change) => {
     const now = new Date();
-    const filterDate = new Date(now.getTime() - filterDays * 24 * 60 * 60 * 1000);
+    const filterDate = new Date(
+      now.getTime() - filterDays * 24 * 60 * 60 * 1000
+    );
     return change.changeDate >= filterDate;
   });
 
-  // Formatowanie daty
   const formatDate = (date) => {
     const now = new Date();
     const diffTime = Math.abs(now - date);
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
-    
+
     if (diffHours < 1) {
       return "Przed chwilą";
     } else if (diffHours < 24) {
@@ -82,17 +88,17 @@ export default function HistoryPage() {
       return `${diffDays} dni temu`;
     } else {
       const weeks = Math.floor(diffDays / 7);
-      return `${weeks} ${weeks === 1 ? 'tydzień' : 'tygodnie'} temu`;
+      return `${weeks} ${weeks === 1 ? "tydzień" : "tygodnie"} temu`;
     }
   };
 
   const formatFullDate = (date) => {
-    return new Intl.DateTimeFormat('pl-PL', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+    return new Intl.DateTimeFormat("pl-PL", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     }).format(date);
   };
 
@@ -106,7 +112,9 @@ export default function HistoryPage() {
               Historia Zmian
             </CardTitle>
             <div className="flex items-center gap-3">
-              <span className="text-sm text-slate-400">Pokaż zmiany z ostatnich:</span>
+              <span className="text-sm text-slate-400">
+                Pokaż zmiany z ostatnich:
+              </span>
               <div className="flex gap-2">
                 <button
                   onClick={() => setFilterDays(7)}
@@ -145,14 +153,21 @@ export default function HistoryPage() {
         <CardContent>
           <div className="mb-4 flex items-center justify-between">
             <div className="text-sm text-slate-400">
-              Znaleziono <span className="text-red-400 font-semibold">{filteredHistory.length}</span> zmian
+              Znaleziono{" "}
+              <span className="text-red-400 font-semibold">
+                {filteredHistory.length}
+              </span>{" "}
+              zmian
             </div>
-            <Badge variant="outline" className="bg-slate-800/50 text-green-400 border-green-500/50 text-xs">
+            <Badge
+              variant="outline"
+              className="bg-slate-800/50 text-green-400 border-green-500/50 text-xs"
+            >
               <Clock className="h-3 w-3 mr-1" />
               Ostatnie 3 tygodnie
             </Badge>
           </div>
-          
+
           <div className="bg-slate-800/30 rounded-lg border border-slate-700/50 overflow-hidden">
             <Table>
               <TableHeader>
@@ -167,7 +182,10 @@ export default function HistoryPage() {
               <TableBody>
                 {filteredHistory.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={5} className="text-center text-slate-400 py-8">
+                    <TableCell
+                      colSpan={5}
+                      className="text-center text-slate-400 py-8"
+                    >
                       Brak zmian w wybranym okresie
                     </TableCell>
                   </TableRow>
@@ -233,7 +251,9 @@ export default function HistoryPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-slate-800/30 rounded-lg p-4 border border-slate-700/50">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-slate-400 text-sm">Łączna liczba zmian</span>
+                <span className="text-slate-400 text-sm">
+                  Łączna liczba zmian
+                </span>
                 <History className="h-4 w-4 text-red-400" />
               </div>
               <div className="text-3xl font-bold text-red-400">
@@ -243,7 +263,7 @@ export default function HistoryPage() {
                 w ostatnich {filterDays} dniach
               </p>
             </div>
-            
+
             <div className="bg-slate-800/30 rounded-lg p-4 border border-slate-700/50">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-slate-400 text-sm">Średnio dziennie</span>
@@ -252,21 +272,19 @@ export default function HistoryPage() {
               <div className="text-3xl font-bold text-purple-400">
                 {(filteredHistory.length / filterDays).toFixed(1)}
               </div>
-              <p className="text-xs text-slate-500 mt-1">
-                zmian na dzień
-              </p>
+              <p className="text-xs text-slate-500 mt-1">zmian na dzień</p>
             </div>
-            
+
             <div className="bg-slate-800/30 rounded-lg p-4 border border-slate-700/50">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-slate-400 text-sm">Unikalnych pojazdów</span>
+                <span className="text-slate-400 text-sm">Ilość pojazdów</span>
                 <User className="h-4 w-4 text-blue-400" />
               </div>
               <div className="text-3xl font-bold text-blue-400">
-                {new Set(filteredHistory.map(h => h.vehicleId)).size}
+                {new Set(filteredHistory.map((h) => h.vehicleId)).size}
               </div>
               <p className="text-xs text-slate-500 mt-1">
-                różnych pojazdów
+                które zmieniły swoją trasę w ciągu 21 dni
               </p>
             </div>
           </div>
@@ -275,4 +293,3 @@ export default function HistoryPage() {
     </div>
   );
 }
-

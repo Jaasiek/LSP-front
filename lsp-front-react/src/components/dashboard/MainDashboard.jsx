@@ -21,7 +21,6 @@ import table_data from "@/data/table_data";
 export function MainDashboard() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [key, setKey] = useState(0);
-  const [vehicleData, setVehicleData] = useState([]);
 
   const handleRefresh = () => {
     setIsRefreshing(true);
@@ -35,7 +34,7 @@ export function MainDashboard() {
     }, 2000);
   };
   // Bezpieczne obliczenia statystyk z domyślnymi wartościami
-  const safeTableData = Array.isArray(vehicleData) ? vehicleData : [];
+  const safeTableData = Array.isArray(table_data) ? table_data : [];
   const totalVehicles = safeTableData.length || 0;
   const averageOdometer =
     totalVehicles > 0
@@ -129,19 +128,20 @@ export function MainDashboard() {
             />
             <MetricCard
               title="Średni Przebieg"
-              value={Math.round(averageOdometer / 1000)}
+              value={`${averageOdometer.toLocaleString()} km`}
               icon={Gauge}
               trend="up"
               color="purple"
-              detail={`${averageOdometer.toLocaleString()} km`}
+              detail=""
             />
             <MetricCard
-              title="Stan Floty"
+              title="Pojazdy poza obiegiem"
               value={fleetHealth}
               icon={Shield}
               trend="stable"
               color="blue"
               detail={`${vehiclesNeedingService} wymaga serwisu`}
+              percentage={true}
             />
           </div>
           <div className="mt-8">
@@ -157,16 +157,12 @@ export function MainDashboard() {
                 </TabsList>
                 <div className="flex items-center space-x-2 text-xs text-slate-400">
                   <div className="flex items-center">
-                    <div className="h-2 w-2 rounded-full bg-red-500 mr-1"></div>
+                    <div className="h-2 w-2 rounded-full bg-green-500 mr-1"></div>
                     Aktywne
                   </div>
                   <div className="flex items-center">
                     <div className="h-2 w-2 rounded-full bg-amber-500 mr-1"></div>
                     Serwis
-                  </div>
-                  <div className="flex items-center">
-                    <div className="h-2 w-2 rounded-full bg-green-500 mr-1"></div>
-                    Dostępne
                   </div>
                 </div>
               </div>
@@ -187,7 +183,7 @@ export function MainDashboard() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {safeTableData.slice(0, 8).map((vehicle) => (
+                      {safeTableData.map((vehicle) => (
                         <TableRow
                           key={vehicle.id}
                           className="border-slate-700/30 hover:bg-slate-700/30"
