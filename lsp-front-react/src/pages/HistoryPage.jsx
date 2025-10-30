@@ -153,7 +153,12 @@ export default function HistoryPage() {
             </Badge>
           </div>
           
-          <div className="bg-slate-800/30 rounded-lg border border-slate-700/50 overflow-hidden">
+          <style>{`
+            .history-table-scroll {
+              scrollbar-color: rgba(68, 74, 239, 0.5) rgba(30, 41, 59, 0.3);
+            }
+          `}</style>
+          <div className="bg-slate-800/30 rounded-lg border border-slate-700/50 overflow-hidden max-h-[600px] overflow-y-hidden history-table-scroll">
             <Table>
               <TableHeader>
                 <TableRow className="border-slate-700/50 hover:bg-slate-800/30">

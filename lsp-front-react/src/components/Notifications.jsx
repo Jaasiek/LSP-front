@@ -162,32 +162,8 @@ export function NotificationsPanel({ isOpen, onClose }) {
             </Button>
           )}
         </div>
-
-        {/* Lista notyfikacji */}
         <style>{`
-          /* Custom scrollbar styling dla panelu powiadomień */
-          .notifications-scroll::-webkit-scrollbar {
-            width: 8px;
-          }
-          
-          .notifications-scroll::-webkit-scrollbar-track {
-            background: rgba(68, 74, 239, 0.5);
-            border-radius: 4px;
-          }
-          
-          .notifications-scroll::-webkit-scrollbar-thumb {
-            background: rgba(68, 74, 239, 0.5);
-            border-radius: 4px;
-            transition: background 0.3s ease;
-          }
-          
-          .notifications-scroll::-webkit-scrollbar-thumb:hover {
-            background: rgba(145, 68, 239, 0.7);
-          }
-          
-          /* Firefox scrollbar */
           .notifications-scroll {
-            scrollbar-width: thin;
             scrollbar-color: rgba(68, 74, 239, 0.5) rgba(30, 41, 59, 0.3);
           }
         `}</style>
