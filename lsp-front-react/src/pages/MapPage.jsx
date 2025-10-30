@@ -5,7 +5,14 @@ import locations from "@/data/locations";
 import table_data from "@/data/table_data";
 import LicencePlate from "@/components/LicencePlate";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { MapPin } from "lucide-react";
 
@@ -19,11 +26,10 @@ const center = {
   lng: 21.0122,
 };
 
-// Bezpieczny MapPage z domyślnymi wartościami
 export default function MapPage() {
   const mapRef = useRef(null);
   const [selectedId, setSelectedId] = useState("");
-  
+
   const options = useMemo(
     () =>
       locations.map((loc) => ({
@@ -79,26 +85,26 @@ export default function MapPage() {
                 styles={{
                   control: (base) => ({
                     ...base,
-                    backgroundColor: '#1e293b',
-                    borderColor: '#334155',
-                    color: '#e2e8f0',
+                    backgroundColor: "#1e293b",
+                    borderColor: "#334155",
+                    color: "#e2e8f0",
                   }),
                   menu: (base) => ({
                     ...base,
-                    backgroundColor: '#1e293b',
+                    backgroundColor: "#1e293b",
                   }),
                   option: (base, state) => ({
                     ...base,
-                    backgroundColor: state.isFocused ? '#334155' : '#1e293b',
-                    color: '#e2e8f0',
+                    backgroundColor: state.isFocused ? "#334155" : "#1e293b",
+                    color: "#e2e8f0",
                   }),
                   singleValue: (base) => ({
                     ...base,
-                    color: '#22d3ee',
+                    color: "#22d3ee",
                   }),
                   input: (base) => ({
                     ...base,
-                    color: '#e2e8f0',
+                    color: "#e2e8f0",
                   }),
                 }}
               />
@@ -148,31 +154,45 @@ export default function MapPage() {
 
       <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-slate-100">Pojazdy w Trasie</CardTitle>
+          <CardTitle className="text-slate-100">
+            Pojazdy w Trasie do/z punktu
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow className="border-slate-700/50 hover:bg-slate-800/30">
                 <TableHead className="text-slate-300">Marka</TableHead>
-                <TableHead className="text-slate-300">Nr Rejestracyjny</TableHead>
+                <TableHead className="text-slate-300">
+                  Nr Rejestracyjny
+                </TableHead>
                 <TableHead className="text-slate-300">Trasa</TableHead>
                 <TableHead className="text-slate-300">Przebieg</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {table_data.slice(0, 10).map((vehicle) => (
-                <TableRow key={vehicle.id} className="border-slate-700/30 hover:bg-slate-700/30">
-                  <TableCell className="font-medium text-slate-200">{vehicle.make}</TableCell>
+              {table_data.map((vehicle) => (
+                <TableRow
+                  key={vehicle.id}
+                  className="border-slate-700/30 hover:bg-slate-700/30"
+                >
+                  <TableCell className="font-medium text-slate-200">
+                    {vehicle.make}
+                  </TableCell>
                   <TableCell>
                     <LicencePlate licenceNumber={vehicle.licencePlate} />
                   </TableCell>
                   <TableCell className="text-slate-300">
-                    <Badge variant="outline" className="bg-slate-800/50 text-cyan-400 border-cyan-500/50">
+                    <Badge
+                      variant="outline"
+                      className="bg-slate-800/50 text-cyan-400 border-cyan-500/50"
+                    >
                       Trasa {vehicle.route}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-slate-300">{vehicle.odometer.toLocaleString()} km</TableCell>
+                  <TableCell className="text-slate-300">
+                    {vehicle.odometer.toLocaleString()} km
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -182,4 +202,3 @@ export default function MapPage() {
     </div>
   );
 }
-
