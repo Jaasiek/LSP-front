@@ -219,10 +219,10 @@ export default function UpcomingServicesPage() {
                     </TableCell>
                     <TableCell className="text-slate-300">
                       <div className="flex items-center gap-2">
+                        {odometer.toLocaleString()} km
                         {odometer > 480000 && (
                           <AlertTriangle className="h-4 w-4 text-red-500" />
                         )}
-                        {odometer.toLocaleString()} km
                       </div>
                     </TableCell>
                     <TableCell>
