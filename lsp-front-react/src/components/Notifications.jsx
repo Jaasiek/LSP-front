@@ -49,8 +49,8 @@ function NotificationItem({ notification, onClose }) {
         <X className="h-4 w-4" />
       </button>
       
-      <div className="flex items-start space-x-3">
-        <div className="mt-0.5">{getIcon()}</div>
+      <div className="flex items-start space-x-3 ">
+        <div className="mt-0.5 r ">{getIcon()}</div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between mb-1">
             <h4 className={`text-sm font-semibold ${notification.isRead ? 'text-slate-400' : 'text-slate-100'}`}>
@@ -164,7 +164,34 @@ export function NotificationsPanel({ isOpen, onClose }) {
         </div>
 
         {/* Lista notyfikacji */}
-        <div className="flex-1 overflow-y-auto p-4">
+        <style>{`
+          /* Custom scrollbar styling dla panelu powiadomień */
+          .notifications-scroll::-webkit-scrollbar {
+            width: 8px;
+          }
+          
+          .notifications-scroll::-webkit-scrollbar-track {
+            background: rgba(68, 74, 239, 0.5);
+            border-radius: 4px;
+          }
+          
+          .notifications-scroll::-webkit-scrollbar-thumb {
+            background: rgba(68, 74, 239, 0.5);
+            border-radius: 4px;
+            transition: background 0.3s ease;
+          }
+          
+          .notifications-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(145, 68, 239, 0.7);
+          }
+          
+          /* Firefox scrollbar */
+          .notifications-scroll {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(68, 74, 239, 0.5) rgba(30, 41, 59, 0.3);
+          }
+        `}</style>
+        <div className="flex-1 overflow-y-auto p-4 notifications-scroll">
           {notifications.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center">
               <div className="bg-slate-800/50 rounded-full p-6 mb-4">

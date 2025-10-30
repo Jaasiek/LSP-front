@@ -17,12 +17,12 @@ export function Header() {
   return (
     <header className="flex items-center justify-between py-2 border-b border-slate-700/50 mb-4">
       <div className="flex items-center space-x-2">
-        <img src={LSPGroup_logo_white} className="h-17 w-auto" />
+        <img src={LSPGroup_logo_white} className="h-17 w-auto " />
       </div>
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-3 ">
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger asChild>
+            <TooltipTrigger asChild className="cursor-pointer">
               <Button
                 variant="ghost"
                 size="icon"
