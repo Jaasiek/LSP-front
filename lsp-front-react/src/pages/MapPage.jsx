@@ -111,8 +111,8 @@ export default function MapPage() {
   function focusLocationById(id) {
     const loc = locations.find((l) => String(l.id) === String(id));
     if (loc && mapRef.current) {
-      mapRef.current.panTo({ lat: loc.lat, lng: loc.long });
-      mapRef.current.setZoom(8);
+      mapRef.current.panTo({ lat: loc.lat, lng: loc.lng });
+      mapRef.current.setZoom(10); // Zwiększony zoom dla lepszej widoczności
     }
   }
 
@@ -328,30 +328,51 @@ export default function MapPage() {
                 center={center}
                 zoom={6}
               >
-                {/* Markery lokalizacji */}
-                {locations.map((loc) => {
-                  const isSelected =
-                    selectedId && String(loc.id) === String(selectedId);
-                  return (
-                    <Marker
-                      key={loc.id}
-                      position={{ lat: loc.lat, lng: loc.lng }}
-                      title={String(loc.id)}
-                      opacity={isSelected ? 1 : selectedId ? 0.6 : 1}
-                      zIndex={isSelected ? 1000 : 1}
-                      animation={
-                        isSelected && window.google
-                          ? window.google.maps.Animation.BOUNCE
-                          : undefined
-                      }
-                      onClick={() => {
-                        const id = String(loc.id);
-                        setSelectedId(id);
-                        focusLocationById(id);
-                      }}
-                    />
-                  );
-                })}
+                 {/* Markery lokalizacji */}
+                 {locations.map((loc) => {
+                   const isSelected =
+                     selectedId && String(loc.id) === String(selectedId);
+                   const isUsedInRoutes = selectedId
+                     ? isLocationUsedInRoutes(loc.id)
+                     : true;
+
+                   // Ustal opacity i zIndex na podstawie użycia
+                   let opacity = 1;
+                   let zIndex = 1;
+
+                   if (selectedId) {
+                     if (isSelected) {
+                       opacity = 1; // Wybrana lokalizacja - pełna widoczność
+                       zIndex = 1000; // Na górze
+                     } else if (isUsedInRoutes) {
+                       opacity = 0.85; // Lokalizacje w trasach - dobrze widoczne
+                       zIndex = 100;
+                     } else {
+                       opacity = 0.15; // Pozostałe - bardzo słabo widoczne
+                       zIndex = 1;
+                     }
+                   }
+
+                   return (
+                     <Marker
+                       key={loc.id}
+                       position={{ lat: loc.lat, lng: loc.lng }}
+                       title={String(loc.id)}
+                       opacity={opacity}
+                       zIndex={zIndex}
+                       animation={
+                         isSelected && window.google
+                           ? window.google.maps.Animation.BOUNCE
+                           : undefined
+                       }
+                       onClick={() => {
+                         const id = String(loc.id);
+                         setSelectedId(id);
+                         focusLocationById(id);
+                       }}
+                     />
+                   );
+                 })}
 
                 {/* Trasy wychodzące (niebieski) - Z wybranej lokalizacji - renderowane przez Directions API */}
                 {outgoing.map((route, idx) => (
