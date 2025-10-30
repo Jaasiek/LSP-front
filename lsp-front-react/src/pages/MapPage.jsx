@@ -1,7 +1,12 @@
 import { useRef, useState, useMemo, useEffect } from "react";
-import { GoogleMap, Marker, DirectionsRenderer, useJsApiLoader } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  Marker,
+  DirectionsRenderer,
+  useJsApiLoader,
+} from "@react-google-maps/api";
 import Select from "react-select";
-import locations from "@/data/locations";
+// import locations from "@/data/locations";
 import table_data from "@/data/table_data";
 import LicencePlate from "@/components/LicencePlate";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -51,9 +56,65 @@ const center = {
 };
 
 export default function MapPage() {
+  const [locations, setLocations] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const mapRef = useRef(null);
   const [selectedId, setSelectedId] = useState("");
-  const [directionsResults, setDirectionsResults] = useState({ outgoing: [], incoming: [] });
+  const [directionsResults, setDirectionsResults] = useState({
+    outgoing: [],
+    incoming: [],
+  });
+
+  useEffect(() => {
+    async function fetchLocations() {
+      try {
+        setLoading(true);
+        const res = await fetch("http://10.7.221.120:6123/api/locations");
+
+        if (!res.ok) throw new Error("Błąd pobierania danych");
+
+        const text = await res.text();
+
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (parseErr) {
+          console.error("Błąd parsowania JSON:", parseErr);
+          console.log("Otrzymane dane:", text + "...");
+          throw new Error("Niepoprawny format JSON z API");
+        }
+
+        if (!Array.isArray(data)) {
+          throw new Error("Oczekiwano tablicy obiektów lokalizacji");
+        }
+
+        const cleaned = data.map((item) => ({
+          id: String(item.id ?? ""),
+          lat: Number(item.lat ?? item.latitude ?? 0),
+          lng: Number(item.long ?? item.lng ?? 0),
+        }));
+
+        setLocations(cleaned);
+        console.log("✅ Pobrane lokalizacje:", cleaned);
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchLocations();
+  }, []);
+
+  function focusLocationById(id) {
+    const loc = locations.find((l) => String(l.id) === String(id));
+    if (loc && mapRef.current) {
+      mapRef.current.panTo({ lat: loc.lat, lng: loc.long });
+      mapRef.current.setZoom(8);
+    }
+  }
 
   const options = useMemo(
     () =>
@@ -61,16 +122,8 @@ export default function MapPage() {
         value: String(loc.id),
         label: String(loc.id),
       })),
-    []
+    [locations]
   );
-
-  function focusLocationById(id) {
-    const loc = locations.find((l) => String(l.id) === String(id));
-    if (loc && mapRef.current) {
-      mapRef.current.panTo({ lat: loc.lat, lng: loc.lng });
-      mapRef.current.setZoom(8);
-    }
-  }
 
   // Pobieranie tras przez Directions API
   useEffect(() => {
@@ -104,7 +157,7 @@ export default function MapPage() {
             optimizeWaypoints: true, // Optymalizuj trasę
           },
           (result, status) => {
-            if (status === 'OK') {
+            if (status === "OK") {
               resolve({ result, targetId });
             } else {
               resolve(null);
@@ -132,7 +185,7 @@ export default function MapPage() {
             optimizeWaypoints: true, // Optymalizuj trasę
           },
           (result, status) => {
-            if (status === 'OK') {
+            if (status === "OK") {
               resolve({ result, sourceId });
             } else {
               resolve(null);
@@ -177,7 +230,10 @@ export default function MapPage() {
             <div className="flex items-center gap-4 flex-wrap">
               {selectedId && (
                 <>
-                  <Badge variant="outline" className="bg-slate-800/50 text-amber-400 border-amber-500/50 text-xs">
+                  <Badge
+                    variant="outline"
+                    className="bg-slate-800/50 text-amber-400 border-amber-500/50 text-xs"
+                  >
                     🚛 Trasy dla TIRów
                   </Badge>
                   <div className="flex items-center gap-4 text-sm">
@@ -247,153 +303,196 @@ export default function MapPage() {
             </div>
           </div>
         </CardHeader>
-        <CardContent>
-          <div className="rounded-lg overflow-hidden border border-slate-700/50">
-            <GoogleMap
-              onLoad={(map) => {
-                mapRef.current = map;
-              }}
-              onUnmount={() => {
-                mapRef.current = null;
-              }}
-              mapContainerStyle={containerStyle}
-              center={center}
-              zoom={6}
-            >
-              {/* Markery lokalizacji */}
-              {locations.map((loc) => {
-                const isSelected =
-                  selectedId && String(loc.id) === String(selectedId);
-                return (
-                  <Marker
-                    key={loc.id}
-                    position={{ lat: loc.lat, lng: loc.lng }}
-                    title={String(loc.id)}
-                    opacity={isSelected ? 1 : selectedId ? 0.6 : 1}
-                    zIndex={isSelected ? 1000 : 1}
-                    animation={
-                      isSelected && window.google
-                        ? window.google.maps.Animation.BOUNCE
-                        : undefined
-                    }
-                    onClick={() => {
-                      const id = String(loc.id);
-                      setSelectedId(id);
-                      focusLocationById(id);
+        {!loading && error === null && (
+          <CardContent>
+            <div className="rounded-lg overflow-hidden border border-slate-700/50">
+              <GoogleMap
+                onLoad={(map) => {
+                  mapRef.current = map;
+                }}
+                onUnmount={() => {
+                  mapRef.current = null;
+                }}
+                mapContainerStyle={containerStyle}
+                center={center}
+                zoom={6}
+              >
+                {/* Markery lokalizacji */}
+                {locations.map((loc) => {
+                  const isSelected =
+                    selectedId && String(loc.id) === String(selectedId);
+                  return (
+                    <Marker
+                      key={loc.id}
+                      position={{ lat: loc.lat, lng: loc.lng }}
+                      title={String(loc.id)}
+                      opacity={isSelected ? 1 : selectedId ? 0.6 : 1}
+                      zIndex={isSelected ? 1000 : 1}
+                      animation={
+                        isSelected && window.google
+                          ? window.google.maps.Animation.BOUNCE
+                          : undefined
+                      }
+                      onClick={() => {
+                        const id = String(loc.id);
+                        setSelectedId(id);
+                        focusLocationById(id);
+                      }}
+                    />
+                  );
+                })}
+
+                {/* Trasy wychodzące (niebieski) - Z wybranej lokalizacji - renderowane przez Directions API */}
+                {outgoing.map((route, idx) => (
+                  <DirectionsRenderer
+                    key={`outgoing-${idx}`}
+                    directions={route.result}
+                    options={{
+                      suppressMarkers: true, // Ukryj domyślne markery
+                      polylineOptions: {
+                        strokeColor: "#3B82F6", // Niebieski
+                        strokeOpacity: 0.7,
+                        strokeWeight: 4,
+                      },
                     }}
                   />
-                );
-              })}
+                ))}
 
-              {/* Trasy wychodzące (niebieski) - Z wybranej lokalizacji - renderowane przez Directions API */}
-              {outgoing.map((route, idx) => (
-                <DirectionsRenderer
-                  key={`outgoing-${idx}`}
-                  directions={route.result}
-                  options={{
-                    suppressMarkers: true, // Ukryj domyślne markery
-                    polylineOptions: {
-                      strokeColor: "#3B82F6", // Niebieski
-                      strokeOpacity: 0.7,
-                      strokeWeight: 4,
-                    },
-                  }}
-                />
-              ))}
-
-              {/* Trasy przychodzące (zielony) - DO wybranej lokalizacji - renderowane przez Directions API */}
-              {incoming.map((route, idx) => (
-                <DirectionsRenderer
-                  key={`incoming-${idx}`}
-                  directions={route.result}
-                  options={{
-                    suppressMarkers: true, // Ukryj domyślne markery
-                    polylineOptions: {
-                      strokeColor: "#10B981", // Zielony
-                      strokeOpacity: 0.7,
-                      strokeWeight: 4,
-                    },
-                  }}
-                />
-              ))}
-            </GoogleMap>
-          </div>
-        </CardContent>
+                {/* Trasy przychodzące (zielony) - DO wybranej lokalizacji - renderowane przez Directions API */}
+                {incoming.map((route, idx) => (
+                  <DirectionsRenderer
+                    key={`incoming-${idx}`}
+                    directions={route.result}
+                    options={{
+                      suppressMarkers: true, // Ukryj domyślne markery
+                      polylineOptions: {
+                        strokeColor: "#10B981", // Zielony
+                        strokeOpacity: 0.7,
+                        strokeWeight: 4,
+                      },
+                    }}
+                  />
+                ))}
+              </GoogleMap>
+            </div>
+          </CardContent>
+        )}
       </Card>
-
-      {selectedId && routesData[selectedId] && outgoing.length > 0 && incoming.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6" key={`routes-${selectedId}`}>
-          <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm" key={`outgoing-card-${selectedId}`}>
-            <CardHeader>
-              <CardTitle className="text-slate-100 flex items-center text-base">
-                <ArrowRight className="mr-2 h-4 w-4 text-blue-400" />
-                Trasy Wychodzące ({outgoing.length})
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {outgoing.map((route, idx) => {
-                  const distance = route.result?.routes?.[0]?.legs?.[0]?.distance?.text;
-                  const duration = route.result?.routes?.[0]?.legs?.[0]?.duration?.text;
-                  return (
-                    <div key={idx} className="p-3 bg-slate-800/30 rounded border border-blue-500/30">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-slate-300 text-sm font-medium">{selectedId}</span>
-                        <ArrowRight className="h-4 w-4 text-blue-400" />
-                        <span className="text-slate-300 text-sm font-medium">{route.targetId}</span>
-                      </div>
-                      {distance && duration && (
-                        <div className="flex gap-3 text-xs text-slate-400">
-                          <span>📍 {distance}</span>
-                          <span>⏱️ {duration}</span>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm" key={`incoming-card-${selectedId}`}>
-            <CardHeader>
-              <CardTitle className="text-slate-100 flex items-center text-base">
-                <ArrowLeft className="mr-2 h-4 w-4 text-green-400" />
-                Trasy Przychodzące ({incoming.length})
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {incoming.map((route, idx) => {
-                  const distance = route.result?.routes?.[0]?.legs?.[0]?.distance?.text;
-                  const duration = route.result?.routes?.[0]?.legs?.[0]?.duration?.text;
-                  return (
-                    <div key={idx} className="p-3 bg-slate-800/30 rounded border border-green-500/30">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-slate-300 text-sm font-medium">{route.sourceId}</span>
-                        <ArrowRight className="h-4 w-4 text-green-400" />
-                        <span className="text-slate-300 text-sm font-medium">{selectedId}</span>
-                      </div>
-                      {distance && duration && (
-                        <div className="flex gap-3 text-xs text-slate-400">
-                          <span>📍 {distance}</span>
-                          <span>⏱️ {duration}</span>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </CardContent>
-          </Card>
+      {loading && (
+        <div className="flex items-center justify-center h-52">
+          <p className="text-slate-400">Ładowanie lokalizacji...</p>
         </div>
       )}
 
+      {!loading && error && (
+        <div className="flex items-center justify-center h-52">
+          <p className="text-red-400 text-lg">
+            Wystąpił błąd podczas ładowania lokalizacji
+          </p>
+        </div>
+      )}
+
+      {selectedId &&
+        routesData[selectedId] &&
+        outgoing.length > 0 &&
+        incoming.length > 0 && (
+          <div
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            key={`routes-${selectedId}`}
+          >
+            <Card
+              className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm"
+              key={`outgoing-card-${selectedId}`}
+            >
+              <CardHeader>
+                <CardTitle className="text-slate-100 flex items-center text-base">
+                  <ArrowRight className="mr-2 h-4 w-4 text-blue-400" />
+                  Trasy Wychodzące ({outgoing.length})
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {outgoing.map((route, idx) => {
+                    const distance =
+                      route.result?.routes?.[0]?.legs?.[0]?.distance?.text;
+                    const duration =
+                      route.result?.routes?.[0]?.legs?.[0]?.duration?.text;
+                    return (
+                      <div
+                        key={idx}
+                        className="p-3 bg-slate-800/30 rounded border border-blue-500/30"
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-slate-300 text-sm font-medium">
+                            {selectedId}
+                          </span>
+                          <ArrowRight className="h-4 w-4 text-blue-400" />
+                          <span className="text-slate-300 text-sm font-medium">
+                            {route.targetId}
+                          </span>
+                        </div>
+                        {distance && duration && (
+                          <div className="flex gap-3 text-xs text-slate-400">
+                            <span>📍 {distance}</span>
+                            <span>⏱️ {duration}</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card
+              className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm"
+              key={`incoming-card-${selectedId}`}
+            >
+              <CardHeader>
+                <CardTitle className="text-slate-100 flex items-center text-base">
+                  <ArrowLeft className="mr-2 h-4 w-4 text-green-400" />
+                  Trasy Przychodzące ({incoming.length})
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {incoming.map((route, idx) => {
+                    const distance =
+                      route.result?.routes?.[0]?.legs?.[0]?.distance?.text;
+                    const duration =
+                      route.result?.routes?.[0]?.legs?.[0]?.duration?.text;
+                    return (
+                      <div
+                        key={idx}
+                        className="p-3 bg-slate-800/30 rounded border border-green-500/30"
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-slate-300 text-sm font-medium">
+                            {route.sourceId}
+                          </span>
+                          <ArrowRight className="h-4 w-4 text-green-400" />
+                          <span className="text-slate-300 text-sm font-medium">
+                            {selectedId}
+                          </span>
+                        </div>
+                        {distance && duration && (
+                          <div className="flex gap-3 text-xs text-slate-400">
+                            <span>📍 {distance}</span>
+                            <span>⏱️ {duration}</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
       <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="text-slate-100">
-            Pojazdy w Trasie
-          </CardTitle>
+          <CardTitle className="text-slate-100">Pojazdy w Trasie</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
@@ -408,30 +507,33 @@ export default function MapPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {Array.isArray(table_data) && table_data.map((vehicle) => (
-                <TableRow
-                  key={vehicle?.id || Math.random()}
-                  className="border-slate-700/30 hover:bg-slate-700/30"
-                >
-                  <TableCell className="font-medium text-slate-200">
-                    {vehicle?.make || "N/A"}
-                  </TableCell>
-                  <TableCell>
-                    <LicencePlate licenceNumber={vehicle?.licencePlate || "XXX 0000"} />
-                  </TableCell>
-                  <TableCell className="text-slate-300">
-                    <Badge
-                      variant="outline"
-                      className="bg-slate-800/50 text-red-400 border-red-500/50"
-                    >
-                      Trasa {vehicle?.route || "N/A"}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-slate-300">
-                    {(vehicle?.odometer || 0).toLocaleString()} km
-                  </TableCell>
-                </TableRow>
-              ))}
+              {Array.isArray(table_data) &&
+                table_data.map((vehicle) => (
+                  <TableRow
+                    key={vehicle?.id || Math.random()}
+                    className="border-slate-700/30 hover:bg-slate-700/30"
+                  >
+                    <TableCell className="font-medium text-slate-200">
+                      {vehicle?.make || "N/A"}
+                    </TableCell>
+                    <TableCell>
+                      <LicencePlate
+                        licenceNumber={vehicle?.licencePlate || "XXX 0000"}
+                      />
+                    </TableCell>
+                    <TableCell className="text-slate-300">
+                      <Badge
+                        variant="outline"
+                        className="bg-slate-800/50 text-red-400 border-red-500/50"
+                      >
+                        Trasa {vehicle?.route || "N/A"}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-slate-300">
+                      {(vehicle?.odometer || 0).toLocaleString()} km
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </CardContent>
