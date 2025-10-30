@@ -33,12 +33,12 @@ export function MainDashboard() {
         <CardHeader className="border-b border-slate-700/50 pb-3">
           <div className="flex items-center justify-between">
             <CardTitle className="text-slate-100 flex items-center">
-              <Activity className="mr-2 h-5 w-5 text-cyan-500" />
+              <Activity className="mr-2 h-5 w-5 text-red-500" />
               Przegląd Floty
             </CardTitle>
             <div className="flex items-center space-x-2">
-              <Badge variant="outline" className="bg-slate-800/50 text-cyan-400 border-cyan-500/50 text-xs">
-                <div className="h-1.5 w-1.5 rounded-full bg-cyan-500 mr-1 animate-pulse"></div>
+              <Badge variant="outline" className="bg-slate-800/50 text-red-400 border-red-500/50 text-xs">
+                <div className="h-1.5 w-1.5 rounded-full bg-red-500 mr-1 animate-pulse"></div>
                 NA ŻYWO
               </Badge>
               <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400">
@@ -78,12 +78,12 @@ export function MainDashboard() {
             <Tabs defaultValue="vehicles" className="w-full">
               <div className="flex items-center justify-between mb-4">
                 <TabsList className="bg-slate-800/50 p-1">
-                  <TabsTrigger value="vehicles" className="data-[state=active]:bg-slate-700 data-[state=active]:text-cyan-400">Pojazdy</TabsTrigger>
-                  <TabsTrigger value="routes" className="data-[state=active]:bg-slate-700 data-[state=active]:text-cyan-400">Trasy</TabsTrigger>
-                  <TabsTrigger value="analytics" className="data-[state=active]:bg-slate-700 data-[state=active]:text-cyan-400">Analityka</TabsTrigger>
+                  <TabsTrigger value="vehicles" className="data-[state=active]:bg-slate-700 data-[state=active]:text-red-400">Pojazdy</TabsTrigger>
+                  <TabsTrigger value="routes" className="data-[state=active]:bg-slate-700 data-[state=active]:text-red-400">Trasy</TabsTrigger>
+                  <TabsTrigger value="analytics" className="data-[state=active]:bg-slate-700 data-[state=active]:text-red-400">Analityka</TabsTrigger>
                 </TabsList>
                 <div className="flex items-center space-x-2 text-xs text-slate-400">
-                  <div className="flex items-center"><div className="h-2 w-2 rounded-full bg-cyan-500 mr-1"></div>Aktywne</div>
+                  <div className="flex items-center"><div className="h-2 w-2 rounded-full bg-red-500 mr-1"></div>Aktywne</div>
                   <div className="flex items-center"><div className="h-2 w-2 rounded-full bg-amber-500 mr-1"></div>Serwis</div>
                   <div className="flex items-center"><div className="h-2 w-2 rounded-full bg-green-500 mr-1"></div>Dostępne</div>
                 </div>
@@ -108,7 +108,7 @@ export function MainDashboard() {
                             <LicencePlate licenceNumber={vehicle.licencePlate} />
                           </TableCell>
                           <TableCell className="text-slate-300">
-                            <Badge variant="outline" className="bg-slate-800/50 text-cyan-400 border-cyan-500/50">
+                            <Badge variant="outline" className="bg-slate-800/50 text-red-400 border-red-500/50">
                               Trasa {vehicle.route || "N/A"}
                             </Badge>
                           </TableCell>
@@ -138,10 +138,10 @@ export function MainDashboard() {
                         <div key={route} className="bg-slate-700/30 rounded-lg p-4 border border-slate-600/50">
                           <div className="flex items-center justify-between mb-3">
                             <div className="flex items-center">
-                              <MapPin className="h-5 w-5 text-cyan-400 mr-2" />
+                              <MapPin className="h-5 w-5 text-red-400 mr-2" />
                               <span className="text-slate-200 font-medium">Trasa {route}</span>
                             </div>
-                            <Badge variant="outline" className="bg-slate-800/50 text-cyan-400 border-cyan-500/50">
+                            <Badge variant="outline" className="bg-slate-800/50 text-red-400 border-red-500/50">
                               {vehiclesOnRoute.length} pojazd{vehiclesOnRoute.length !== 1 ? 'ów' : ''}
                             </Badge>
                           </div>
@@ -159,7 +159,7 @@ export function MainDashboard() {
                   <PerformanceChart />
                   <div className="absolute bottom-4 right-4 bg-slate-900/80 backdrop-blur-sm rounded-md px-3 py-2 border border-slate-700/50">
                     <div className="text-xs text-slate-400">Stan Floty</div>
-                    <div className="text-lg font-mono text-cyan-400">{fleetHealth}%</div>
+                    <div className="text-lg font-mono text-red-400">{fleetHealth}%</div>
                   </div>
                 </div>
               </TabsContent>
@@ -191,16 +191,16 @@ export function MainDashboard() {
               </div>
               <div className="flex items-center justify-between">
                 <div className="text-sm text-slate-400">Aktualizacja Danych</div>
-                <div className="text-sm text-cyan-400">Zaktualizowano <span className="text-slate-500">2 min temu</span></div>
+                <div className="text-sm text-red-400">Zaktualizowano <span className="text-slate-500">2 min temu</span></div>
               </div>
               <div className="pt-2 mt-2 border-t border-slate-700/50">
                 <div className="flex items-center justify-between mb-2">
                   <div className="text-sm font-medium">Poziom Bezpieczeństwa</div>
-                  <div className="text-sm text-cyan-400">{fleetHealth}%</div>
+                  <div className="text-sm text-red-400">{fleetHealth}%</div>
                 </div>
                 <div>
                   <div className="h-2 bg-slate-700 rounded-md overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-green-500 to-cyan-500 rounded-full" style={{ width: `${fleetHealth}%` }} />
+                    <div className="h-full bg-gradient-to-r from-green-500 to-red-500 rounded-full" style={{ width: `${fleetHealth}%` }} />
                   </div>
                 </div>
               </div>
@@ -223,9 +223,9 @@ export function MainDashboard() {
                 </div>
                 <div className="text-xs text-slate-400">{vehiclesNeedingService} pojazdów wymaga przeglądu serwisowego</div>
               </div>
-              <div className="bg-slate-800/50 rounded-lg p-3 border border-cyan-500/30">
+              <div className="bg-slate-800/50 rounded-lg p-3 border border-red-500/30">
                 <div className="flex items-start justify-between mb-1">
-                  <div className="text-sm font-medium text-cyan-400">Aktualizacja Tras</div>
+                  <div className="text-sm font-medium text-red-400">Aktualizacja Tras</div>
                   <div className="text-xs text-slate-500">13:45</div>
                 </div>
                 <div className="text-xs text-slate-400">Nowe przypisania tras dla {activeRoutes} pojazdów</div>

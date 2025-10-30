@@ -51,15 +51,15 @@ export function StatusItem({ label = "Status", value = 0, color = "cyan" }) {
   const getColor = () => {
     switch (color) {
       case "cyan":
-        return "from-cyan-500 to-blue-500"
+        return "from-red-500 to-red-700"
       case "green":
         return "from-green-500 to-emerald-500"
       case "blue":
-        return "from-blue-500 to-indigo-500"
+        return "from-red-600 to-red-800"
       case "purple":
         return "from-purple-500 to-pink-500"
       default:
-        return "from-cyan-500 to-blue-500"
+        return "from-red-500 to-red-700"
     }
   }
 
@@ -90,15 +90,15 @@ export function MetricCard({
   const getColor = () => {
     switch (color) {
       case "cyan":
-        return "from-cyan-500 to-blue-500 border-cyan-500/30"
+        return "from-red-500 to-red-700 border-red-500/30"
       case "green":
         return "from-green-500 to-emerald-500 border-green-500/30"
       case "blue":
-        return "from-blue-500 to-indigo-500 border-blue-500/30"
+        return "from-red-600 to-red-800 border-red-600/30"
       case "purple":
         return "from-purple-500 to-pink-500 border-purple-500/30"
       default:
-        return "from-cyan-500 to-blue-500 border-cyan-500/30"
+        return "from-red-500 to-red-700 border-red-500/30"
     }
   }
 
@@ -128,7 +128,7 @@ export function MetricCard({
       </div>
       <div className="text-xs text-slate-500">{detail}</div>
       <div className="absolute bottom-2 right-2 flex items-center">{getTrendIcon()}</div>
-      <div className="absolute -bottom-6 -right-6 h-16 w-16 rounded-full bg-gradient-to-r opacity-20 blur-xl from-cyan-500 to-blue-500"></div>
+        <div className="absolute -bottom-6 -right-6 h-16 w-16 rounded-full bg-gradient-to-r opacity-20 blur-xl from-red-500 to-red-700"></div>
     </div>
   )
 }
@@ -159,9 +159,9 @@ export function PerformanceChart() {
           const netHeight = 45 + (i % 5) * 8
           return (
             <div key={i} className="flex space-x-0.5">
-              <div className="w-1 bg-gradient-to-t from-cyan-500 to-cyan-400 rounded-t-sm" style={{ height: `${cpuHeight}%` }}></div>
-              <div className="w-1 bg-gradient-to-t from-purple-500 to-purple-400 rounded-t-sm" style={{ height: `${memHeight}%` }}></div>
-              <div className="w-1 bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-sm" style={{ height: `${netHeight}%` }}></div>
+                <div className="w-1 bg-gradient-to-t from-red-500 to-red-400 rounded-t-sm" style={{ height: `${cpuHeight}%` }}></div>
+                <div className="w-1 bg-gradient-to-t from-red-600 to-red-500 rounded-t-sm" style={{ height: `${memHeight}%` }}></div>
+                <div className="w-1 bg-gradient-to-t from-red-700 to-red-600 rounded-t-sm" style={{ height: `${netHeight}%` }}></div>
             </div>
           )
         })}
@@ -284,7 +284,7 @@ export function ActionButton({ icon: Icon, label = "Action" }) {
   
   return (
     <Button variant="outline" className="h-auto py-3 px-3 border-slate-700 bg-slate-800/50 hover:bg-slate-700/50 flex flex-col items-center justify-center space-y-1 w-full">
-      <Icon className="h-5 w-5 text-cyan-500" />
+        <Icon className="h-5 w-5 text-red-500" />
       <span className="text-xs">{label}</span>
     </Button>
   )

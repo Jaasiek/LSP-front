@@ -49,7 +49,7 @@ export default function MapPage() {
   if (!isLoaded) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <p className="text-cyan-400 text-lg">Ładowanie mapy...</p>
+        <p className="text-red-400 text-lg">Ładowanie mapy...</p>
       </div>
     );
   }
@@ -60,7 +60,7 @@ export default function MapPage() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="text-slate-100 flex items-center">
-              <MapPin className="mr-2 h-5 w-5 text-cyan-500" />
+              <MapPin className="mr-2 h-5 w-5 text-red-500" />
               Mapa Lokalizacji
             </CardTitle>
             <div className="w-64">
@@ -77,28 +77,40 @@ export default function MapPage() {
                 }}
                 isClearable
                 styles={{
-                  control: (base) => ({
+                  control: (base, state) => ({
                     ...base,
                     backgroundColor: '#1e293b',
-                    borderColor: '#334155',
+                    borderColor: '#ef4444',
                     color: '#e2e8f0',
+                    boxShadow: 'none',
+                    outline: 'none',
+                    '&:hover': {
+                      borderColor: '#dc2626',
+                    },
                   }),
                   menu: (base) => ({
                     ...base,
                     backgroundColor: '#1e293b',
+                    border: '1px solid #ef4444',
                   }),
                   option: (base, state) => ({
                     ...base,
                     backgroundColor: state.isFocused ? '#334155' : '#1e293b',
                     color: '#e2e8f0',
+        
+                    cursor: 'pointer',
                   }),
                   singleValue: (base) => ({
                     ...base,
-                    color: '#22d3ee',
+                    color: '#ef4444',
                   }),
                   input: (base) => ({
                     ...base,
                     color: '#e2e8f0',
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: '#94a3b8',
                   }),
                 }}
               />
@@ -168,7 +180,7 @@ export default function MapPage() {
                     <LicencePlate licenceNumber={vehicle.licencePlate} />
                   </TableCell>
                   <TableCell className="text-slate-300">
-                    <Badge variant="outline" className="bg-slate-800/50 text-cyan-400 border-cyan-500/50">
+                    <Badge variant="outline" className="bg-slate-800/50 text-red-400 border-red-500/50">
                       Trasa {vehicle.route}
                     </Badge>
                   </TableCell>

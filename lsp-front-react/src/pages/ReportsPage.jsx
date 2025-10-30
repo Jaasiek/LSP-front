@@ -27,7 +27,7 @@ export default function ReportsPage() {
       <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="text-slate-100 flex items-center">
-            <FileText className="mr-2 h-5 w-5 text-cyan-500" />
+            <FileText className="mr-2 h-5 w-5 text-red-500" />
             Raporty Floty
           </CardTitle>
         </CardHeader>
@@ -36,11 +36,11 @@ export default function ReportsPage() {
             <div className="bg-slate-800/30 rounded-lg p-4 border border-slate-700/50">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-slate-400 text-sm">Łączna Liczba Pojazdów</span>
-                <Badge variant="outline" className="bg-cyan-500/20 text-cyan-400 border-cyan-500/50">
+                <Badge variant="outline" className="bg-red-500/20 text-red-400 border-red-500/50">
                   Flota
                 </Badge>
               </div>
-              <div className="text-3xl font-bold text-cyan-400">{totalVehicles}</div>
+              <div className="text-3xl font-bold text-red-400">{totalVehicles}</div>
               <p className="text-xs text-slate-500 mt-1">pojazd(ów) w systemie</p>
             </div>
 
@@ -91,7 +91,7 @@ export default function ReportsPage() {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-slate-400">Łączny przebieg:</span>
-                    <span className="text-cyan-400 font-medium">
+                    <span className="text-red-400 font-medium">
                       {stats.totalMileage.toLocaleString()} km
                     </span>
                   </div>
@@ -137,8 +137,8 @@ export default function ReportsPage() {
                     <span className="text-slate-200">~{(totalVehicles * 800).toLocaleString()} zł</span>
                   </div>
                   <div className="flex justify-between text-sm font-bold pt-2 border-t border-slate-600">
-                    <span className="text-cyan-400">Suma:</span>
-                    <span className="text-cyan-400">{(totalVehicles * 5500).toLocaleString()} zł</span>
+                    <span className="text-red-400">Suma:</span>
+                    <span className="text-red-400">{(totalVehicles * 5500).toLocaleString()} zł</span>
                   </div>
                 </div>
               </div>

@@ -14,7 +14,7 @@ function NotificationItem({ notification, onClose }) {
       case "warning":
         return <AlertTriangle className="h-5 w-5 text-amber-500" />
       default:
-        return <Info className="h-5 w-5 text-cyan-500" />
+        return <Info className="h-5 w-5 text-red-500" />
     }
   }
 
@@ -36,7 +36,7 @@ function NotificationItem({ notification, onClose }) {
       case "warning":
         return "bg-amber-500/10"
       default:
-        return "bg-cyan-500/10"
+        return "bg-red-500/10"
     }
   }
 
@@ -65,7 +65,7 @@ function NotificationItem({ notification, onClose }) {
               {formatTimeAgo(notification.timestamp)}
             </span>
             {notification.vehicleId && (
-              <Badge variant="outline" className={`text-xs ${notification.isRead ? 'bg-slate-800/30 text-slate-500 border-slate-600/50' : 'bg-slate-800/50 text-cyan-400 border-cyan-500/50'}`}>
+              <Badge variant="outline" className={`text-xs ${notification.isRead ? 'bg-slate-800/30 text-slate-500 border-slate-600/50' : 'bg-slate-800/50 text-red-400 border-red-500/50'}`}>
                 <Truck className="h-3 w-3 mr-1" />
                 {notification.vehicleId}
               </Badge>
@@ -137,7 +137,7 @@ export function NotificationsPanel({ isOpen, onClose }) {
             <div className="flex items-center space-x-2">
               <h2 className="text-lg font-bold text-slate-100">Powiadomienia</h2>
               {unreadCount > 0 && (
-                <Badge className="bg-cyan-500 text-white text-xs">
+                <Badge className="bg-red-500 text-white text-xs">
                   {unreadCount} nowych
                 </Badge>
               )}
