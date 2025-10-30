@@ -1,7 +1,7 @@
 import table_data from "@/data/table_data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { FileText, TrendingUp, DollarSign, Calendar } from "lucide-react";
+import { FileText, TrendingUp, Calendar } from "lucide-react";
 
 // Bezpieczny ReportsPage z domyślnymi wartościami
 export default function ReportsPage() {
@@ -13,9 +13,6 @@ export default function ReportsPage() {
   );
   const averageMileage =
     totalVehicles > 0 ? Math.round(totalMileage / totalVehicles) : 0;
-  const activeRoutes = new Set(
-    safeTableData.map((v) => v?.route).filter(Boolean)
-  ).size;
   const effectiveness = 10 + Math.random() * 90; // losowa efektywność między 60% a 100%
 
   // Calculate statistics by brand - bezpieczne
@@ -39,7 +36,7 @@ export default function ReportsPage() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-slate-800/30 rounded-lg p-4 border border-slate-700/50">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-slate-400 text-sm">
@@ -84,17 +81,6 @@ export default function ReportsPage() {
               <p className="text-xs text-slate-500 mt-1">
                 {averageMileage.toLocaleString()} km
               </p>
-            </div>
-
-            <div className="bg-slate-800/30 rounded-lg p-4 border border-slate-700/50">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-slate-400 text-sm">Aktywne Trasy</span>
-                <DollarSign className="h-4 w-4 text-green-400" />
-              </div>
-              <div className="text-3xl font-bold text-green-400">
-                {activeRoutes}
-              </div>
-              <p className="text-xs text-slate-500 mt-1">różnych tras</p>
             </div>
           </div>
         </CardContent>

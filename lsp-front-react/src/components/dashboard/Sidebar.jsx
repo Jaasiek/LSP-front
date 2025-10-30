@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Truck, MapPin, Wrench, FileText } from "lucide-react";
+import { Truck, MapPin, Wrench, FileText, History } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 // Bezpieczny Sidebar z domyślnymi wartościami - uproszczona wersja bez statusów
@@ -12,6 +12,7 @@ export function Sidebar() {
     { icon: Truck, label: "Przydział Pojazdów", path: "/vehicles" },
     { icon: Wrench, label: "Serwisy", path: "/services" },
     { icon: FileText, label: "Raporty", path: "/reports" },
+    { icon: History, label: "Historia Zmian", path: "/history" },
   ];
 
   return (

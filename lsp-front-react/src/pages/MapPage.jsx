@@ -239,7 +239,7 @@ export default function MapPage() {
               Mapa Lokalizacji
             </CardTitle>
             <div className="flex items-center gap-4 flex-wrap">
-              {selectedId && (
+              {selectedId && routesData[selectedId] && (outgoing.length > 0 || incoming.length > 0) && (
                 <>
                   <Badge
                     variant="outline"
@@ -423,6 +423,26 @@ export default function MapPage() {
           </p>
         </div>
       )}
+
+      {/* Komunikat gdy brak tras dla wybranej lokalizacji */}
+      {selectedId && 
+        (!routesData[selectedId] || (outgoing.length === 0 && incoming.length === 0)) && (
+          <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm">
+            <CardContent className="p-12">
+              <div className="flex flex-col items-center justify-center text-center">
+                <div className="bg-slate-800/50 rounded-full p-6 mb-4">
+                  <MapPin className="h-12 w-12 text-slate-600" />
+                </div>
+                <h3 className="text-slate-300 text-lg font-medium mb-2">
+                  Brak aktywnych tras
+                </h3>
+                <p className="text-slate-500 text-sm max-w-md">
+                  Dla wybranej lokalizacji <span className="text-red-400 font-mono">{selectedId}</span> nie znaleziono żadnych aktywnych tras wychodzących ani przychodzących.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
       {selectedId &&
         routesData[selectedId] &&

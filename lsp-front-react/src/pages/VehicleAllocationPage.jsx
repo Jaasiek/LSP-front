@@ -174,13 +174,6 @@ function VehicleDropdown({ vehicles, selectedVehicleId, onChange }) {
           
           {/* Lista opcji */}
           <div className="max-h-60 overflow-auto">
-            <button
-              type="button"
-              onClick={() => handleSelect(null)}
-              className="w-full px-3 py-2 hover:bg-slate-700 transition-colors flex items-center justify-center gap-2 border-b border-slate-600"
-            >
-              <span className="text-slate-300 text-sm">Wszystkie pojazdy</span>
-            </button>
             {filteredVehicles.length > 0 ? (
               filteredVehicles.map((vehicle) => (
                 <button
@@ -215,9 +208,9 @@ const fetchVehicleData = (vehicleId) => {
   console.log(`Fetching data for vehicle ID: ${vehicleId}`);
   const allData = Array.isArray(table_data) ? table_data : [];
   
-  // Jeśli nie wybrano żadnego pojazdu, zwracamy wszystko
+  // Jeśli nie wybrano żadnego pojazdu, zwracamy pustą tablicę
   if (!vehicleId) {
-    return allData;
+    return [];
   }
   
   // W przeciwnym razie filtrujemy po ID pojazdu
@@ -272,6 +265,17 @@ export default function VehicleAllocationPage() {
                 selectedVehicleId={selectedVehicleId}
                 onChange={setSelectedVehicleId}
               />
+              {selectedVehicleId && (
+                <button
+                  onClick={() => setSelectedVehicleId(null)}
+                  className="p-1.5 rounded-md hover:bg-slate-700 text-slate-400 hover:text-red-400 transition-colors"
+                  title="Wyczyść filtr"
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
             </div>
           </CardTitle>
         </CardHeader>
@@ -290,40 +294,58 @@ export default function VehicleAllocationPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {safeTableData.map((vehicle) => (
-                <TableRow
-                  key={vehicle.id}
-                  className="border-slate-700/30 hover:bg-slate-700/30"
-                >
-                  <TableCell className="font-medium text-slate-200">
-                    {vehicle?.make || "N/A"}
-                  </TableCell>
-                  <TableCell>
-                    <LicencePlate
-                      licenceNumber={vehicle?.licencePlate || "XXX 0000"}
-                    />
-                  </TableCell>
-                  <TableCell className="text-slate-300">
-                    <Badge
-                      variant="outline"
-                      className="bg-slate-800/50 text-red-400 border-red-500/50"
-                    >
-                      Trasa {vehicle?.route || "N/A"}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setEditingVehicle(vehicle)}
-                      className="text-red-400 hover:text-red-300 hover:bg-slate-700/50"
-                    >
-                      <Edit className="h-4 w-4 mr-2" />
-                      Edytuj
-                    </Button>
+              {safeTableData.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={4} className="text-center py-12">
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="bg-slate-800/50 rounded-full p-6 mb-4">
+                        <Truck className="h-12 w-12 text-slate-600" />
+                      </div>
+                      <h3 className="text-slate-300 text-lg font-medium mb-2">
+                        Wybierz pojazd
+                      </h3>
+                      <p className="text-slate-500 text-sm">
+                        Użyj filtra powyżej, aby wybrać pojazd i zobaczyć szczegóły przydziału
+                      </p>
+                    </div>
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                safeTableData.map((vehicle) => (
+                  <TableRow
+                    key={vehicle.id}
+                    className="border-slate-700/30 hover:bg-slate-700/30"
+                  >
+                    <TableCell className="font-medium text-slate-200">
+                      {vehicle?.make || "N/A"}
+                    </TableCell>
+                    <TableCell>
+                      <LicencePlate
+                        licenceNumber={vehicle?.licencePlate || "XXX 0000"}
+                      />
+                    </TableCell>
+                    <TableCell className="text-slate-300">
+                      <Badge
+                        variant="outline"
+                        className="bg-slate-800/50 text-red-400 border-red-500/50"
+                      >
+                        Trasa {vehicle?.route || "N/A"}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setEditingVehicle(vehicle)}
+                        className="text-red-400 hover:text-red-300 hover:bg-slate-700/50"
+                      >
+                        <Edit className="h-4 w-4 mr-2" />
+                        Edytuj
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </CardContent>
