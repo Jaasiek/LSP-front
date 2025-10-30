@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -6,15 +7,17 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Bell } from "lucide-react";
+import { getUnreadNotifications } from "@/data/notifications";
 import LSPGroup_logo_white from "../../../public/LSPGroup_logo_white.svg";
+import { NotificationsPanel } from "@/components/Notifications";
 
 export function Header() {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const unreadCount = getUnreadNotifications().length;
   return (
-    <header className="flex items-center justify-between py-4 border-b border-slate-700/50 mb-6">
+    <header className="flex items-center justify-between py-2 border-b border-slate-700/50 mb-4">
       <div className="flex items-center space-x-2">
-        <img src={LSPGroup_logo_white} className="h-30 w-auto" />
+        <img src={LSPGroup_logo_white} className="h-17 w-auto" />
       </div>
       <div className="flex items-center space-x-3">
         <TooltipProvider>
@@ -23,6 +26,7 @@ export function Header() {
               <Button
                 variant="ghost"
                 size="icon"
+                onClick={() => setIsNotificationsOpen(true)}
                 className="relative text-slate-400 hover:text-slate-100"
               >
                 <Bell className="h-5 w-5" />

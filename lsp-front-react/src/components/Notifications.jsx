@@ -41,7 +41,7 @@ function NotificationItem({ notification, onClose }) {
   }
 
   return (
-    <div className={`${getBgColor()} ${getBorderColor()} border rounded-lg p-4 mb-3 relative group hover:shadow-lg transition-all`}>
+    <div className={`${getBgColor()} ${getBorderColor()} border rounded-lg p-4 mb-3 relative group hover:shadow-lg transition-all ${notification.isRead ? 'opacity-50' : ''}`}>
       <button
         onClick={() => onClose(notification.id)}
         className="absolute top-2 right-2 text-slate-400 hover:text-slate-100 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -53,16 +53,19 @@ function NotificationItem({ notification, onClose }) {
         <div className="mt-0.5">{getIcon()}</div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between mb-1">
-            <h4 className="text-sm font-semibold text-slate-100">{notification.title}</h4>
-            {!notification.isRead && (
-              <div className="h-2 w-2 rounded-full bg-cyan-500 animate-pulse"></div>
-            )}
+            <h4 className={`text-sm font-semibold ${notification.isRead ? 'text-slate-400' : 'text-slate-100'}`}>
+              {notification.title}
+            </h4>
           </div>
-          <p className="text-xs text-slate-300 mb-2">{notification.message}</p>
+          <p className={`text-xs mb-2 ${notification.isRead ? 'text-slate-400' : 'text-slate-300'}`}>
+            {notification.message}
+          </p>
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-500">{formatTimeAgo(notification.timestamp)}</span>
+            <span className={`text-xs ${notification.isRead ? 'text-slate-600' : 'text-slate-500'}`}>
+              {formatTimeAgo(notification.timestamp)}
+            </span>
             {notification.vehicleId && (
-              <Badge variant="outline" className="bg-slate-800/50 text-cyan-400 border-cyan-500/50 text-xs">
+              <Badge variant="outline" className={`text-xs ${notification.isRead ? 'bg-slate-800/30 text-slate-500 border-slate-600/50' : 'bg-slate-800/50 text-cyan-400 border-cyan-500/50'}`}>
                 <Truck className="h-3 w-3 mr-1" />
                 {notification.vehicleId}
               </Badge>
