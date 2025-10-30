@@ -21,20 +21,21 @@ import table_data from "@/data/table_data";
 export function MainDashboard() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [key, setKey] = useState(0);
+  const [vehicleData, setVehicleData] = useState([]);
 
   const handleRefresh = () => {
     setIsRefreshing(true);
-    
+
     // Symulacja odświeżania danych z efektem dźwiękowym (opcjonalnie)
     // new Audio('/refresh-sound.mp3').play().catch(() => {});
-    
+
     setTimeout(() => {
       setIsRefreshing(false);
-      setKey(prev => prev + 1); // Force re-render z animacją
+      setKey((prev) => prev + 1); // Force re-render z animacją
     }, 2000);
   };
   // Bezpieczne obliczenia statystyk z domyślnymi wartościami
-  const safeTableData = Array.isArray(table_data) ? table_data : [];
+  const safeTableData = Array.isArray(vehicleData) ? vehicleData : [];
   const totalVehicles = safeTableData.length || 0;
   const averageOdometer =
     totalVehicles > 0
@@ -57,20 +58,25 @@ export function MainDashboard() {
 
   return (
     <div className="grid gap-6">
-      <Card 
+      <Card
         key={key}
         className={`bg-slate-900/50 border-slate-700/50 backdrop-blur-sm overflow-hidden relative transition-all duration-500 ${
-          isRefreshing ? 'scale-[0.99] opacity-90' : 'scale-100 opacity-100'
+          isRefreshing ? "scale-[0.99] opacity-90" : "scale-100 opacity-100"
         }`}
       >
-
         <CardHeader className="border-b border-slate-700/50 pb-3 relative">
           <div className="flex items-center justify-between">
             <CardTitle className="text-slate-100 flex items-center">
-              <Activity className={`mr-2 h-5 w-5 text-red-500 transition-all duration-500 ${
-                isRefreshing ? 'animate-spin scale-110' : ''
-              }`} />
-              <span className={`transition-all duration-300 ${isRefreshing ? 'text-red-400' : ''}`}>
+              <Activity
+                className={`mr-2 h-5 w-5 text-red-500 transition-all duration-500 ${
+                  isRefreshing ? "animate-spin scale-110" : ""
+                }`}
+              />
+              <span
+                className={`transition-all duration-300 ${
+                  isRefreshing ? "text-red-400" : ""
+                }`}
+              >
                 Przegląd Floty
               </span>
             </CardTitle>
@@ -80,7 +86,7 @@ export function MainDashboard() {
                 className="bg-slate-800/50 text-red-400 border-red-500/50 text-xs transition-all duration-300"
               >
                 <div className="h-1.5 w-1.5 rounded-full bg-red-500 mr-1 animate-pulse"></div>
-                {isRefreshing ? 'ODŚWIEŻANIE...' : 'NA ŻYWO'}
+                {isRefreshing ? "ODŚWIEŻANIE..." : "NA ŻYWO"}
               </Badge>
               <Button
                 variant="ghost"
@@ -88,14 +94,18 @@ export function MainDashboard() {
                 onClick={handleRefresh}
                 disabled={isRefreshing}
                 className={`h-8 w-8 transition-all duration-300 relative group ${
-                  isRefreshing 
-                    ? 'bg-red-500/20 text-red-400 cursor-not-allowed' 
-                    : 'text-slate-400 hover:text-red-400 hover:bg-red-500/10 hover:scale-110'
+                  isRefreshing
+                    ? "bg-red-500/20 text-red-400 cursor-not-allowed"
+                    : "text-slate-400 hover:text-red-400 hover:bg-red-500/10 hover:scale-110"
                 }`}
               >
-                <RefreshCw className={`h-4 w-4 transition-all duration-700 ${
-                  isRefreshing ? 'animate-spin scale-110' : 'group-hover:rotate-180'
-                }`} />
+                <RefreshCw
+                  className={`h-4 w-4 transition-all duration-700 ${
+                    isRefreshing
+                      ? "animate-spin scale-110"
+                      : "group-hover:rotate-180"
+                  }`}
+                />
                 {!isRefreshing && (
                   <div className="absolute inset-0 rounded-md bg-red-500/0 group-hover:bg-red-500/10 transition-all duration-300"></div>
                 )}
@@ -103,9 +113,11 @@ export function MainDashboard() {
             </div>
           </div>
         </CardHeader>
-        <CardContent className={`p-6 transition-all duration-500 ${
-          isRefreshing ? 'blur-[2px] opacity-60' : 'blur-0 opacity-100'
-        }`}>
+        <CardContent
+          className={`p-6 transition-all duration-500 ${
+            isRefreshing ? "blur-[2px] opacity-60" : "blur-0 opacity-100"
+          }`}
+        >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <MetricCard
               title="Łączna Liczba Pojazdów"
@@ -141,18 +153,6 @@ export function MainDashboard() {
                     className="data-[state=active]:bg-slate-700 data-[state=active]:text-red-400"
                   >
                     Pojazdy
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="routes"
-                    className="data-[state=active]:bg-slate-700 data-[state=active]:text-red-400"
-                  >
-                    Trasy
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="analytics"
-                    className="data-[state=active]:bg-slate-700 data-[state=active]:text-red-400"
-                  >
-                    Analityka
                   </TabsTrigger>
                 </TabsList>
                 <div className="flex items-center space-x-2 text-xs text-slate-400">
