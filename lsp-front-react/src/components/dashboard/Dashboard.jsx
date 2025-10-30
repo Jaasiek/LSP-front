@@ -40,13 +40,13 @@ export default function Dashboard({ children }) {
       <div className="container mx-auto p-4 relative z-10">
         <Header />
         <div className="grid grid-cols-12 gap-6">
-          <div className="col-span-12 md:col-span-3 lg:col-span-2">
+          <div className="col-span-12 md:col-span-3 lg:col-span-2 self-start sticky top-4">
             <Sidebar />
           </div>
           <div className="col-span-12 md:col-span-9 lg:col-span-7">
             {children || <MainDashboard />}
           </div>
-          <div className="col-span-12 lg:col-span-3">
+          <div className="col-span-12 lg:col-span-3 self-start sticky top-4">
             <RightSidebar currentTime={currentTime} />
           </div>
         </div>

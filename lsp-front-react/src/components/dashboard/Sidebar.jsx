@@ -15,7 +15,7 @@ export function Sidebar() {
   ];
 
   return (
-    <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm h-full">
+    <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm">
       <CardContent className="p-4">
         <nav className="space-y-2">
           {navItems.map((item) => {

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { RefreshCw, Truck, MapPin, Gauge, AlertTriangle } from "lucide-react";
@@ -18,6 +19,20 @@ import table_data from "@/data/table_data";
 
 // Bezpieczny MainDashboard z domyślnymi wartościami i obsługą błędów
 export function MainDashboard() {
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [key, setKey] = useState(0);
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    
+    // Symulacja odświeżania danych z efektem dźwiękowym (opcjonalnie)
+    // new Audio('/refresh-sound.mp3').play().catch(() => {});
+    
+    setTimeout(() => {
+      setIsRefreshing(false);
+      setKey(prev => prev + 1); // Force re-render z animacją
+    }, 2000);
+  };
   // Bezpieczne obliczenia statystyk z domyślnymi wartościami
   const safeTableData = Array.isArray(table_data) ? table_data : [];
   const totalVehicles = safeTableData.length || 0;
@@ -42,32 +57,55 @@ export function MainDashboard() {
 
   return (
     <div className="grid gap-6">
-      <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm overflow-hidden">
-        <CardHeader className="border-b border-slate-700/50 pb-3">
+      <Card 
+        key={key}
+        className={`bg-slate-900/50 border-slate-700/50 backdrop-blur-sm overflow-hidden relative transition-all duration-500 ${
+          isRefreshing ? 'scale-[0.99] opacity-90' : 'scale-100 opacity-100'
+        }`}
+      >
+
+        <CardHeader className="border-b border-slate-700/50 pb-3 relative">
           <div className="flex items-center justify-between">
             <CardTitle className="text-slate-100 flex items-center">
-              <Activity className="mr-2 h-5 w-5 text-red-500" />
-              Przegląd Floty
+              <Activity className={`mr-2 h-5 w-5 text-red-500 transition-all duration-500 ${
+                isRefreshing ? 'animate-spin scale-110' : ''
+              }`} />
+              <span className={`transition-all duration-300 ${isRefreshing ? 'text-red-400' : ''}`}>
+                Przegląd Floty
+              </span>
             </CardTitle>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 relative">
               <Badge
                 variant="outline"
-                className="bg-slate-800/50 text-red-400 border-red-500/50 text-xs"
+                className="bg-slate-800/50 text-red-400 border-red-500/50 text-xs transition-all duration-300"
               >
                 <div className="h-1.5 w-1.5 rounded-full bg-red-500 mr-1 animate-pulse"></div>
-                NA ŻYWO
+                {isRefreshing ? 'ODŚWIEŻANIE...' : 'NA ŻYWO'}
               </Badge>
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 text-slate-400"
+                onClick={handleRefresh}
+                disabled={isRefreshing}
+                className={`h-8 w-8 transition-all duration-300 relative group ${
+                  isRefreshing 
+                    ? 'bg-red-500/20 text-red-400 cursor-not-allowed' 
+                    : 'text-slate-400 hover:text-red-400 hover:bg-red-500/10 hover:scale-110'
+                }`}
               >
-                <RefreshCw className="h-4 w-4" />
+                <RefreshCw className={`h-4 w-4 transition-all duration-700 ${
+                  isRefreshing ? 'animate-spin scale-110' : 'group-hover:rotate-180'
+                }`} />
+                {!isRefreshing && (
+                  <div className="absolute inset-0 rounded-md bg-red-500/0 group-hover:bg-red-500/10 transition-all duration-300"></div>
+                )}
               </Button>
             </div>
           </div>
         </CardHeader>
-        <CardContent className="p-6">
+        <CardContent className={`p-6 transition-all duration-500 ${
+          isRefreshing ? 'blur-[2px] opacity-60' : 'blur-0 opacity-100'
+        }`}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <MetricCard
               title="Łączna Liczba Pojazdów"
