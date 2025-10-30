@@ -197,7 +197,7 @@ export default function MapPage() {
                       <span className="text-slate-300">Wychodzące</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <ArrowLeft className="h-4 w-4 text-green-400" />
+                      <ArrowRight className="h-4 w-4 text-green-400" />
                       <span className="text-slate-300">Przychodzące</span>
                     </div>
                   </div>
